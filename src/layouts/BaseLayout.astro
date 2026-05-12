@@ -1,0 +1,115 @@
+---
+import "~/styles/global.css";
+import Nav from "~/components/Nav.astro";
+import Footer from "~/components/Footer.astro";
+import FloatingWhatsApp from "~/components/FloatingWhatsApp.astro";
+import { site } from "~/lib/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  pathname?: string;
+  ogImage?: string;
+}
+
+const {
+  title = "NSQD — Bespoke fabrication and brand activation",
+  description = "Bespoke fabrication and brand activation. End-to-end, or by the part. Dubai + Cape Town.",
+  pathname,
+  ogImage = "/og-default.jpg",
+} = Astro.props;
+
+const canonical = new URL(pathname ?? Astro.url.pathname, site.url).toString();
+const plausibleDomain = site.plausibleDomain;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0A0A0A" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts: Poppins + IBM Plex Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, site.url).toString()} />
+    <meta property="og:site_name" content="NSQD" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Plausible analytics — privacy-respecting, no cookies -->
+    <script
+      is:inline
+      defer
+      data-domain={plausibleDomain}
+      src="https://plausible.io/js/script.tagged-events.outbound-links.js"
+    ></script>
+  </head>
+
+  <body class="bg-ink text-paper antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:bg-sun focus:text-ink focus:px-3 focus:py-2 focus:rounded"
+    >
+      Skip to content
+    </a>
+
+    <Nav />
+
+    <main id="main" class="pt-20">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <FloatingWhatsApp />
+
+    <!-- Lenis smooth scroll, respects prefers-reduced-motion -->
+    <script>
+      import Lenis from "lenis";
+
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reduced) {
+        const lenis = new Lenis({
+          duration: 1.05,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+        });
+        const raf = (time: number) => {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        };
+        requestAnimationFrame(raf);
+
+        // Anchor links use Lenis for smooth scroll
+        document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+          a.addEventListener("click", (e) => {
+            const id = a.getAttribute("href");
+            if (!id || id === "#") return;
+            const el = document.querySelector(id);
+            if (!el) return;
+            e.preventDefault();
+            lenis.scrollTo(el as HTMLElement, { offset: -64 });
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

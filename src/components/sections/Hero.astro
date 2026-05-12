@@ -1,0 +1,61 @@
+---
+import WhatsAppButton from "~/components/WhatsAppButton.astro";
+import { prefills } from "~/lib/whatsapp";
+---
+
+<section
+  id="hero"
+  class="relative overflow-hidden border-b border-edge"
+  aria-labelledby="hero-heading"
+>
+  <div class="wrap px-gutter pt-12 pb-section grid lg:grid-cols-[1.1fr_1fr] gap-12 items-center min-h-[78vh]">
+    <div>
+      <p class="eyebrow">Dubai · Cape Town</p>
+
+      <h1
+        id="hero-heading"
+        class="mt-5 font-sans font-extrabold tracking-tightest text-paper leading-[0.95] text-display"
+      >
+        Bespoke fabrication
+        <br />and brand activation.
+        <br /><span class="hl">End-to-end, or by the part.</span>
+      </h1>
+
+      <p class="mt-7 max-w-xl text-paper/85 text-lg leading-relaxed">
+        A warehouse in Jebel Ali. A studio in Cape Town. One team that builds,
+        prints, cuts and installs — for the brief or for the parts list.
+      </p>
+
+      <div class="mt-9 flex flex-wrap gap-3 items-center">
+        <WhatsAppButton
+          target="projects"
+          message={prefills.general}
+          label="WhatsApp us"
+        />
+        <a href="#work" class="btn-ghost">
+          See the work
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Phase 1: static APC photograph. Phase 2: replaced with rotating Three.js GLB scene. -->
+    <div class="relative aspect-[4/5] lg:aspect-square w-full">
+      <div
+        class="absolute inset-0 rounded-sm border border-edge bg-[radial-gradient(circle_at_30%_30%,rgba(255,218,0,0.06),transparent_60%)] grid place-items-center"
+      >
+        <!-- Placeholder until APC hero image lands at /public/images/hero/apc-scale-model-hero.jpg -->
+        <div class="text-center px-6">
+          <div class="eyebrow text-paper/60">Hero centerpiece · placeholder</div>
+          <div class="mt-3 font-spec text-paper/85">APC scale model — IDEX display case</div>
+          <div class="mt-1 text-mute text-sm font-spec">Drop hero image at /images/hero/apc-scale-model-hero.jpg</div>
+        </div>
+      </div>
+      <!-- Corner registration marks — fabrication-shop visual cue, not decoration -->
+      <svg class="absolute top-0 left-0 text-sun/60" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M0 6V0h6"/></svg>
+      <svg class="absolute top-0 right-0 text-sun/60" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M16 0h6v6"/></svg>
+      <svg class="absolute bottom-0 left-0 text-sun/60" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M0 16v6h6"/></svg>
+      <svg class="absolute bottom-0 right-0 text-sun/60" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M22 16v6h-6"/></svg>
+    </div>
+  </div>
+</section>

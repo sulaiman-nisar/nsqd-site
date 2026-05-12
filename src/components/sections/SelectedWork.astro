@@ -1,0 +1,94 @@
+---
+const work = [
+  {
+    slug: "1rebel-spin-wheel",
+    client: "1Rebel",
+    title: "Spin-and-win wheel",
+    type: "Interactive activation",
+    outcome: "Drove signups at a fitness pop-up — built, branded, on-site in 14 days.",
+    image: "/images/work/1rebel-spin-wheel-hero.jpg",
+  },
+  {
+    slug: "apc-scale-model",
+    client: "IDEX Display",
+    title: "APC scale model",
+    type: "Precision scale fabrication",
+    outcome: "Hard-surface scale build, milled and finished in-house for institutional display.",
+    image: "/images/work/apc-scale-model-hero.jpg",
+  },
+  {
+    slug: "people-and-co-union-day",
+    client: "People & Co",
+    title: "Union Day / Eid Ul Etihad",
+    type: "Theatrical scale props",
+    outcome: "UAE-coded show props at venue scale — designed, fabricated, installed.",
+    image: "/images/work/people-and-co-union-day-hero.jpg",
+  },
+  {
+    slug: "nyu-trophy",
+    client: "NYU Abu Dhabi",
+    title: "Basketball trophy",
+    type: "3D print, finishing",
+    outcome: "Clean 3D print, hand-finished for an institutional sporting award.",
+    image: "/images/work/nyu-trophy-hero.jpg",
+  },
+  {
+    slug: "graff",
+    client: "Graff",
+    title: "Luxury retail piece",
+    type: "Premium fabrication",
+    outcome: "Custom piece for a luxury house — discreet, exact, on time.",
+    image: "/images/work/graff-hero.jpg",
+  },
+];
+---
+
+<section id="work" class="section" aria-labelledby="work-heading">
+  <div class="wrap">
+    <header class="flex flex-wrap items-end justify-between gap-6 mb-12">
+      <div>
+        <p class="eyebrow">Selected work</p>
+        <h2 id="work-heading" class="mt-3 text-h1 font-extrabold tracking-tightest max-w-2xl">
+          Five things <span class="hl">we made</span> recently.
+        </h2>
+      </div>
+      <span class="font-spec text-mute text-sm">{work.length} of many</span>
+    </header>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+      {work.map((w, i) => (
+        <a
+          href={`/work/${w.slug}`}
+          class:list={[
+            "group relative block border border-edge bg-ink/40 overflow-hidden transition-all duration-300 ease-punch hover:border-paper",
+            i === 0 ? "sm:col-span-2 lg:col-span-2 lg:row-span-2" : "",
+          ]}
+        >
+          <div class:list={[
+            "relative w-full overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.05),transparent_60%)]",
+            i === 0 ? "aspect-[16/11]" : "aspect-[4/3]",
+          ]}>
+            <img
+              src={w.image}
+              alt={`${w.client} — ${w.title}`}
+              loading={i < 2 ? "eager" : "lazy"}
+              decoding="async"
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-punch group-hover:scale-[1.03]"
+              onerror="this.style.display='none'"
+            />
+            <div class="absolute top-3 left-3 tag bg-ink/70 backdrop-blur-sm">{w.type}</div>
+          </div>
+          <div class="p-5 md:p-6">
+            <div class="font-spec text-mute text-sm">{w.client}</div>
+            <h3 class="mt-1 text-h3 font-bold tracking-tightest">{w.title}</h3>
+            <p class="mt-2 text-paper/80 text-sm leading-relaxed">{w.outcome}</p>
+            <div class="mt-4 inline-flex items-center gap-2 text-sm font-spec text-paper/90">
+              See the build
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform duration-200 group-hover:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

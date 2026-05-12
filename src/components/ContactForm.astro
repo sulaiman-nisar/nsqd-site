@@ -1,0 +1,149 @@
+---
+const countryCodes = [
+  { code: "+971", flag: "AE", label: "United Arab Emirates" },
+  { code: "+27", flag: "ZA", label: "South Africa" },
+  { code: "+44", flag: "GB", label: "United Kingdom" },
+  { code: "+1", flag: "US", label: "United States" },
+  { code: "+966", flag: "SA", label: "Saudi Arabia" },
+  { code: "+974", flag: "QA", label: "Qatar" },
+  { code: "+965", flag: "KW", label: "Kuwait" },
+  { code: "+973", flag: "BH", label: "Bahrain" },
+  { code: "+968", flag: "OM", label: "Oman" },
+  { code: "+91", flag: "IN", label: "India" },
+  { code: "+92", flag: "PK", label: "Pakistan" },
+  { code: "+33", flag: "FR", label: "France" },
+  { code: "+49", flag: "DE", label: "Germany" },
+  { code: "+39", flag: "IT", label: "Italy" },
+  { code: "+34", flag: "ES", label: "Spain" },
+];
+---
+
+<form
+  id="contact-form"
+  action="/api/contact"
+  method="post"
+  novalidate
+  class="grid gap-5 max-w-2xl"
+>
+  <div class="grid sm:grid-cols-2 gap-5">
+    <label class="grid gap-2">
+      <span class="eyebrow text-paper/70">Name</span>
+      <input
+        type="text"
+        name="name"
+        required
+        autocomplete="name"
+        class="bg-transparent border-b border-edge px-1 py-3 text-paper placeholder:text-mute focus:border-sun focus:outline-none"
+        placeholder="Your name"
+      />
+    </label>
+    <label class="grid gap-2">
+      <span class="eyebrow text-paper/70">Email</span>
+      <input
+        type="email"
+        name="email"
+        required
+        autocomplete="email"
+        class="bg-transparent border-b border-edge px-1 py-3 text-paper placeholder:text-mute focus:border-sun focus:outline-none"
+        placeholder="you@company.com"
+      />
+    </label>
+  </div>
+
+  <div class="grid sm:grid-cols-[140px_1fr] gap-5">
+    <label class="grid gap-2">
+      <span class="eyebrow text-paper/70">Country</span>
+      <select
+        name="country_code"
+        class="bg-transparent border-b border-edge px-1 py-3 text-paper focus:border-sun focus:outline-none appearance-none"
+      >
+        {countryCodes.map((c) => (
+          <option value={c.code} selected={c.code === "+971"} class="bg-ink text-paper">
+            {c.code} {c.flag}
+          </option>
+        ))}
+      </select>
+    </label>
+    <label class="grid gap-2">
+      <span class="eyebrow text-paper/70">Phone</span>
+      <input
+        type="tel"
+        name="phone"
+        autocomplete="tel-national"
+        inputmode="tel"
+        class="bg-transparent border-b border-edge px-1 py-3 text-paper placeholder:text-mute focus:border-sun focus:outline-none"
+        placeholder="55 147 6222"
+      />
+    </label>
+  </div>
+
+  <label class="grid gap-2">
+    <span class="eyebrow text-paper/70">Subject</span>
+    <select
+      name="subject"
+      required
+      class="bg-transparent border-b border-edge px-1 py-3 text-paper focus:border-sun focus:outline-none appearance-none"
+    >
+      <option value="" disabled selected class="bg-ink">Choose a topic…</option>
+      <option value="new_project" class="bg-ink">New project</option>
+      <option value="quote_request" class="bg-ink">Quote request</option>
+      <option value="partnership" class="bg-ink">Partnership</option>
+      <option value="other" class="bg-ink">Other</option>
+    </select>
+  </label>
+
+  <label class="grid gap-2">
+    <span class="eyebrow text-paper/70">Message</span>
+    <textarea
+      name="message"
+      required
+      rows="5"
+      class="bg-transparent border border-edge rounded p-3 text-paper placeholder:text-mute focus:border-sun focus:outline-none resize-y"
+      placeholder="Tell us what you're making, when you need it, and where it lands."
+    ></textarea>
+  </label>
+
+  <!-- Honeypot — bots fill, humans don't see -->
+  <label class="hidden" aria-hidden="true">
+    Leave this empty
+    <input type="text" name="website" tabindex="-1" autocomplete="off" />
+  </label>
+
+  <div class="flex items-center gap-4 pt-2">
+    <button
+      type="submit"
+      class="btn-ghost border-paper/30 hover:border-paper hover:bg-paper hover:text-ink"
+    >
+      Send message
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+    <span id="contact-status" role="status" aria-live="polite" class="text-mute text-sm"></span>
+  </div>
+</form>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const status = document.getElementById("contact-status");
+  if (form && status) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      status.textContent = "Sending…";
+      status.className = "text-mute text-sm";
+      const data = new FormData(form);
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: data,
+          headers: { Accept: "application/json" },
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        status.textContent = "Got it. We'll be in touch.";
+        status.className = "text-sun text-sm";
+        form.reset();
+      } catch (err) {
+        status.textContent = "Something broke. Try WhatsApp instead.";
+        status.className = "text-paper text-sm";
+      }
+    });
+  }
+</script>

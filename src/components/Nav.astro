@@ -1,0 +1,37 @@
+---
+const navItems = [
+  { label: "Work", href: "#work" },
+  { label: "The Floor", href: "#floor" },
+  { label: "Capabilities", href: "#capabilities" },
+  { label: "Studio", href: "#studio" },
+  { label: "Contact", href: "#contact" },
+];
+---
+
+<header class="fixed top-0 inset-x-0 z-30 backdrop-blur-md bg-ink/70 border-b border-edge">
+  <div class="wrap flex items-center justify-between py-4 px-gutter">
+    <a href="/" class="flex items-center gap-2 font-sans font-extrabold tracking-tightest text-paper" aria-label="NSQD home">
+      <span class="text-xl">NSQD</span>
+      <span class="hidden sm:inline text-eyebrow font-spec uppercase text-mute">Necessity Squared</span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-7 font-spec text-sm">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class="text-paper/85 hover:text-paper transition-colors duration-150"
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <a
+      href="#contact"
+      class="md:hidden text-paper/85 font-spec text-sm tag"
+      aria-label="Contact"
+    >
+      Contact
+    </a>
+  </div>
+</header>

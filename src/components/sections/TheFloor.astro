@@ -1,0 +1,90 @@
+---
+// Phase 1 stub: section structure + headline + static SVG diagram.
+// Phase 2: GSAP MotionPath animation with full motion + material realism pass.
+// See brief: laser hard-stop, stepper jitter, UV smooth decel, DTF physical inertia,
+// feTurbulence substrate textures, multi-stop radial hot spots, grain overlay, 0.3-0.5px blur.
+
+const stages = [
+  { name: "Vector file", note: "CAD/CAM" },
+  { name: "Laser cut", note: "CO2 / fiber" },
+  { name: "UV print", note: "flatbed" },
+  { name: "3D detail", note: "FDM / SLA" },
+  { name: "Assembly", note: "in-house" },
+];
+---
+
+<section
+  id="floor"
+  class="section relative border-y border-edge bg-ink"
+  aria-labelledby="floor-heading"
+>
+  <div class="wrap">
+    <p class="eyebrow">The Floor</p>
+    <h2
+      id="floor-heading"
+      class="mt-3 text-h1 font-extrabold tracking-tightest max-w-3xl"
+    >
+      One floor. Every process. <span class="hl">Under one roof.</span>
+    </h2>
+    <p class="mt-4 max-w-2xl text-paper/85 leading-relaxed">
+      A vector file becomes a finished object without ever leaving Jebel Ali.
+      Phase 2 of this site shows the journey in motion — for now, the path.
+    </p>
+
+    <!-- Static pipeline diagram. Phase 2 replaces with animated GSAP MotionPath. -->
+    <div class="mt-12 relative" data-floor-diagram>
+      <svg
+        viewBox="0 0 1200 220"
+        preserveAspectRatio="xMidYMid meet"
+        class="w-full h-auto"
+        role="img"
+        aria-label="Pipeline: vector file, laser cut, UV print, 3D detail, assembly"
+      >
+        <defs>
+          <filter id="grain" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" />
+            <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.18 0" />
+          </filter>
+          <radialGradient id="hot" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9" />
+            <stop offset="25%" stop-color="#FFDA00" stop-opacity="0.7" />
+            <stop offset="100%" stop-color="#FFDA00" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <!-- Substrate texture wash -->
+        <rect width="1200" height="220" fill="url(#grain)" opacity="0.06" />
+
+        <!-- Travel path -->
+        <path
+          id="floor-path"
+          d="M 80,110 Q 200,30 320,110 T 560,110 T 800,110 T 1040,110 L 1120,110"
+          fill="none"
+          stroke="rgba(255,255,255,0.18)"
+          stroke-width="1.5"
+          stroke-dasharray="2 6"
+        />
+
+        <!-- Stage markers -->
+        {stages.map((s, i) => {
+          const x = 80 + i * 240;
+          return (
+            <g transform={`translate(${x}, 110)`}>
+              <circle r="22" fill="#0A0A0A" stroke="#FFFFFF" stroke-width="1.5" />
+              <circle r="6" fill="#FFDA00" />
+              <text y="50" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="14" font-weight="600" fill="#FFFFFF">{s.name}</text>
+              <text y="68" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="11" letter-spacing="0.12em" fill="rgba(255,255,255,0.6)" style="text-transform:uppercase">{s.note}</text>
+            </g>
+          );
+        })}
+
+        <!-- Travelling object placeholder (animated in Phase 2) -->
+        <circle cx="80" cy="110" r="10" fill="url(#hot)" />
+      </svg>
+
+      <div class="mt-6 font-spec text-mute text-sm">
+        Phase 2 · animated GSAP MotionPath traversal · machine-realistic motion · material-honest textures.
+      </div>
+    </div>
+  </div>
+</section>

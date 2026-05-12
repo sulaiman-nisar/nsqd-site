@@ -1,0 +1,48 @@
+---
+// Logo wall + sector strip.
+// Phase 1: text-only logo wall. Phase 1.5: SVG logos drop into /public/images/logos/*.svg
+// and replace the text tiles.
+
+const clients = [
+  "People & Co",
+  "SLS F1",
+  "1Rebel",
+  "NYU Abu Dhabi",
+  "Graff",
+  "KFC",
+  "Ferrari",
+  "Maserati",
+  "Emirates",
+];
+
+const sectors = [
+  "F1 + motorsport",
+  "Fitness + wellness",
+  "Defence + aerospace",
+  "Luxury retail",
+  "Education",
+  "Hospitality",
+];
+---
+
+<section id="clients" class="section border-t border-edge" aria-labelledby="clients-heading">
+  <div class="wrap">
+    <header class="flex flex-wrap items-end justify-between gap-4 mb-10">
+      <h2 id="clients-heading" class="text-h2 font-extrabold tracking-tightest">
+        People we <span class="hl">build for</span>.
+      </h2>
+    </header>
+
+    <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-edge">
+      {clients.map((name) => (
+        <li class="bg-ink aspect-[2/1] grid place-items-center px-4 text-paper/85 font-sans font-semibold tracking-tightest text-center">
+          {name}
+        </li>
+      ))}
+    </ul>
+
+    <div class="mt-10 flex flex-wrap gap-2">
+      {sectors.map((s) => <span class="tag">{s}</span>)}
+    </div>
+  </div>
+</section>

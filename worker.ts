@@ -1,22 +1,24 @@
-// Cloudflare Pages Function — POST /api/contact
-// Routes form submissions to Resend, keyed off the Subject dropdown.
+// Cloudflare Worker entry for nsqd-site.
+// Responsibilities:
+//   1. POST /api/contact  → forward form submission to Resend, routed by Subject dropdown.
+//   2. Anything else      → delegate to the ASSETS binding (static site under dist/).
 //
-// Env vars required (set in Cloudflare Pages → Settings → Environment variables):
-//   RESEND_API_KEY      — re_xxx from resend.com/api-keys
-//   CONTACT_TO_PROJECTS — sulaiman@nsqd.co
-//   CONTACT_TO_QUOTES   — pranav@nsqd.co
-//   CONTACT_FROM        — e.g. "NSQD Site <noreply@nsqd.co>" (must be a verified Resend domain)
+// Why this exists: Cloudflare's newer Workers Static Assets deployment model does NOT
+// auto-detect the Pages-style /functions/ directory convention. We need an explicit
+// worker entry to handle dynamic routes. Static pages still serve from /dist directly.
+//
+// Env vars (Cloudflare → Settings → Variables and Secrets):
+//   RESEND_API_KEY      [Secret]    re_xxx from resend.com/api-keys
+//   CONTACT_TO_PROJECTS [Plaintext] sulaiman@nsqd.co
+//   CONTACT_TO_QUOTES   [Plaintext] pranav@nsqd.co
+//   CONTACT_FROM        [Plaintext] e.g. "NSQD Site <noreply@nsqd.co>" (verified domain)
 
 interface Env {
+  ASSETS: { fetch(request: Request): Promise<Response> };
   RESEND_API_KEY: string;
   CONTACT_TO_PROJECTS: string;
   CONTACT_TO_QUOTES: string;
   CONTACT_FROM: string;
-}
-
-interface Context {
-  request: Request;
-  env: Env;
 }
 
 type Subject = "new_project" | "quote_request" | "partnership" | "other";
@@ -33,12 +35,36 @@ const escapeHtml = (s: string) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!)
   );
 
-export const onRequestPost = async ({ request, env }: Context): Promise<Response> => {
+function json(payload: unknown, status: number): Response {
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: { "content-type": "application/json" },
+  });
+}
+
+async function handleContact(request: Request, env: Env): Promise<Response> {
+  if (request.method !== "POST") {
+    return json({ ok: false, error: "Method not allowed" }, 405);
+  }
+
+  // Fail loudly during local dev if env wiring is missing. In production this
+  // will only fire if Cloudflare secrets weren't saved correctly.
+  if (!env.RESEND_API_KEY || !env.CONTACT_FROM || !env.CONTACT_TO_PROJECTS || !env.CONTACT_TO_QUOTES) {
+    console.error("Missing env vars", {
+      hasKey: !!env.RESEND_API_KEY,
+      hasFrom: !!env.CONTACT_FROM,
+      hasProjects: !!env.CONTACT_TO_PROJECTS,
+      hasQuotes: !!env.CONTACT_TO_QUOTES,
+    });
+    return json({ ok: false, error: "Server misconfigured" }, 500);
+  }
+
   try {
     const form = await request.formData();
 
     const honeypot = String(form.get("website") ?? "");
     if (honeypot.trim() !== "") {
+      // Bot submission. Silently succeed so spammers don't probe.
       return json({ ok: true }, 200);
     }
 
@@ -118,11 +144,17 @@ export const onRequestPost = async ({ request, env }: Context): Promise<Response
     console.error("contact handler error", err);
     return json({ ok: false, error: "Server error" }, 500);
   }
-};
-
-function json(payload: unknown, status: number): Response {
-  return new Response(JSON.stringify(payload), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
 }
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url);
+
+    if (url.pathname === "/api/contact") {
+      return handleContact(request, env);
+    }
+
+    // Everything else: static assets (handles index.html, /work/*, 404, etc.)
+    return env.ASSETS.fetch(request);
+  },
+};

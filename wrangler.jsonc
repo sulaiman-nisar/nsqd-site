@@ -1,0 +1,20 @@
+// Cloudflare Workers Static Assets config.
+// - `main` is the worker that handles dynamic routes (/api/*).
+// - `assets.directory` is the static build output Astro produces.
+// - Default routing: static asset match first; worker runs only for unmatched paths.
+// - `not_found_handling: "404-page"` serves dist/404.html for unmatched non-API routes.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nsqd-site",
+  "main": "./worker.ts",
+  "compatibility_date": "2025-05-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

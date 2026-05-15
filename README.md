@@ -103,7 +103,7 @@ public/images/
 
 ## Brand system (do not drift)
 
-- Background `#0A0A0A` · Text `#FFFFFF` · Highlight `#FFDA00` (sunflower yellow)
+- Background `#0A0A0A` · Text `#FFFFFF` · Highlight `#FFB600` (saffron amber)
 - Primary font: **Poppins** · Secondary: **IBM Plex Sans**
 - Yellow is a highlighter — never a button color. WhatsApp green is the action.
 - Voice: confident, not corporate. Show the craft. Name brands, numbers, deadlines.

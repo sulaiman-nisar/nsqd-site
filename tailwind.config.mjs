@@ -6,7 +6,7 @@ export default {
       colors: {
         ink: "#0A0A0A",
         paper: "#FFFFFF",
-        sun: "#FFDA00",
+        sun: "#FFB600",
         wa: "#25D366",
         wahover: "#1DA851",
         mute: "rgba(255, 255, 255, 0.62)",

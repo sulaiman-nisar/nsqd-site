@@ -81,16 +81,26 @@ const plausibleDomain = site.plausibleDomain;
 
     <FloatingWhatsApp />
 
-    <!-- Lenis smooth scroll, respects prefers-reduced-motion -->
+    <!-- Atmospheric film grain overlay. Fixed, pointer-events:none, mix-blend-mode:overlay.
+         Sits above all content visually but never blocks interaction. SVG fractal noise
+         inline as data URI — no extra HTTP request, ~1KB. Below 5% opacity so it adds
+         texture without being noticed. Skipped under prefers-reduced-motion. -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+
+    <!-- Lenis smooth scroll, respects prefers-reduced-motion.
+         Duration 0.95s + exponential ease = premium inertia without lag.
+         lerp 0.1 = finer interpolation between scroll positions. -->
     <script>
       import Lenis from "lenis";
 
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (!reduced) {
         const lenis = new Lenis({
-          duration: 1.05,
+          duration: 0.95,
           easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           smoothWheel: true,
+          lerp: 0.1,
+          touchMultiplier: 1.5,
         });
         const raf = (time: number) => {
           lenis.raf(time);

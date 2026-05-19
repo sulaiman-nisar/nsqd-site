@@ -51,6 +51,28 @@
     overflow: hidden;
   }
 
+  /* Atmospheric film grain overlay.
+     Sits fixed over the viewport with mix-blend-mode: overlay so light pixels get
+     slightly brightened and dark pixels slightly darkened — proper film grain
+     behaviour. pointer-events: none so it never interferes with clicks.
+     SVG noise inline as a data URI (no HTTP request, ~1KB).
+     Disabled for prefers-reduced-motion users to avoid sensory overload. */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 200px 200px;
+    background-repeat: repeat;
+    will-change: opacity;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .grain-overlay { display: none; }
+  }
+
   /* Selection */
   ::selection {
     background: var(--sun);

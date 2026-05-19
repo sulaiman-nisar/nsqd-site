@@ -78,17 +78,20 @@ const stages = [
           );
         })}
 
-        <!-- Travelling traveller dot — soft glow, follows the path with fluid easing -->
+        <!-- Travelling traveller dot — soft glow, single smooth ease, no stage pauses.
+             Earlier version used staggered keySplines per stage which caused velocity
+             discontinuities at the joins (jerky stutter). One spline across the full
+             loop = continuous velocity, calm conveyor feel. -->
         <g class="floor-traveller">
           <!-- Glow halo -->
           <circle r="22" fill="url(#hot)">
             <animateMotion
-              dur="7s"
+              dur="9s"
               repeatCount="indefinite"
               rotate="auto"
               calcMode="spline"
-              keyTimes="0;0.20;0.25;0.45;0.50;0.70;0.75;0.95;1.0"
-              keySplines="0.4 0 0.6 1; 0.2 0 0.8 1; 0.4 0 0.6 1; 0.2 0 0.8 1; 0.4 0 0.6 1; 0.2 0 0.8 1; 0.4 0 0.6 1; 0.4 0 0.6 1"
+              keyTimes="0;1"
+              keySplines="0.42 0 0.58 1"
             >
               <mpath href="#floor-path" />
             </animateMotion>
@@ -96,11 +99,11 @@ const stages = [
           <!-- Bright core -->
           <circle r="6" fill="#FFB600" stroke="#FFFFFF" stroke-width="1">
             <animateMotion
-              dur="7s"
+              dur="9s"
               repeatCount="indefinite"
               calcMode="spline"
-              keyTimes="0;0.20;0.25;0.45;0.50;0.70;0.75;0.95;1.0"
-              keySplines="0.4 0 0.6 1; 0.2 0 0.8 1; 0.4 0 0.6 1; 0.2 0 0.8 1; 0.4 0 0.6 1; 0.2 0 0.8 1; 0.4 0 0.6 1; 0.4 0 0.6 1"
+              keyTimes="0;1"
+              keySplines="0.42 0 0.58 1"
             >
               <mpath href="#floor-path" />
             </animateMotion>

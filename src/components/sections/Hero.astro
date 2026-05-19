@@ -39,23 +39,43 @@ import { prefills } from "~/lib/whatsapp";
       </div>
     </div>
 
-    <!-- Phase 1: static APC photograph. Phase 2: replaced with rotating Three.js GLB scene. -->
+    <!-- Hero centerpiece: APC scale model, blueprint-to-solid animation rendered in Blender from CAD geometry.
+         The video element autoplays, muted, looping. prefers-reduced-motion swaps to a static poster of the
+         final solid frame. Phase 2 will swap this for an interactive Three.js GLB. -->
     <div class="relative aspect-[4/5] lg:aspect-square w-full">
-      <div
-        class="absolute inset-0 rounded-sm border border-edge bg-[radial-gradient(circle_at_30%_30%,rgba(255,218,0,0.06),transparent_60%)] grid place-items-center"
+      <video
+        class="hero-video absolute inset-0 w-full h-full object-cover rounded-sm border border-edge"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster="/images/hero/apc-hero-poster.jpg"
+        aria-label="APC scale model — blueprint materializing into the fabricated piece"
       >
-        <!-- Placeholder until APC hero image lands at /public/images/hero/apc-scale-model-hero.jpg -->
-        <div class="text-center px-6">
-          <div class="eyebrow text-paper/60">Hero centerpiece · placeholder</div>
-          <div class="mt-3 font-spec text-paper/85">APC scale model — IDEX display case</div>
-          <div class="mt-1 text-mute text-sm font-spec">Drop hero image at /images/hero/apc-scale-model-hero.jpg</div>
-        </div>
-      </div>
+        <source src="/videos/apc-hero.mp4" type="video/mp4" />
+      </video>
+      <img
+        class="hero-video-fallback absolute inset-0 w-full h-full object-cover rounded-sm border border-edge"
+        src="/images/hero/apc-hero-poster.jpg"
+        alt="APC scale model fabricated by NSQD for the IDEX display case"
+        loading="eager"
+      />
       <!-- Corner registration marks — fabrication-shop visual cue, not decoration -->
-      <svg class="absolute top-0 left-0 text-sun/60" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M0 6V0h6"/></svg>
-      <svg class="absolute top-0 right-0 text-sun/60" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M16 0h6v6"/></svg>
-      <svg class="absolute bottom-0 left-0 text-sun/60" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M0 16v6h6"/></svg>
-      <svg class="absolute bottom-0 right-0 text-sun/60" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M22 16v6h-6"/></svg>
+      <svg class="absolute top-0 left-0 text-sun/60 z-10" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M0 6V0h6"/></svg>
+      <svg class="absolute top-0 right-0 text-sun/60 z-10" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M16 0h6v6"/></svg>
+      <svg class="absolute bottom-0 left-0 text-sun/60 z-10" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M0 16v6h6"/></svg>
+      <svg class="absolute bottom-0 right-0 text-sun/60 z-10" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M22 16v6h-6"/></svg>
     </div>
+
+    <style>
+      /* Default: video plays, poster img hidden */
+      .hero-video-fallback { display: none; }
+      /* prefers-reduced-motion: hide video, show static poster */
+      @media (prefers-reduced-motion: reduce) {
+        .hero-video { display: none; }
+        .hero-video-fallback { display: block; }
+      }
+    </style>
   </div>
 </section>

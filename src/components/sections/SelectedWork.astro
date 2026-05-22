@@ -1,46 +1,17 @@
 ---
-const work = [
-  {
-    slug: "1rebel-spin-wheel",
-    client: "1Rebel",
-    title: "Spin-and-win wheel",
-    type: "Interactive activation",
-    outcome: "Drove signups at a fitness pop-up — built, branded, on-site in 14 days.",
-    image: "/images/work/1rebel-spin-wheel-hero.jpg",
-  },
-  {
-    slug: "apc-scale-model",
-    client: "IDEX Display",
-    title: "APC scale model",
-    type: "Precision scale fabrication",
-    outcome: "Hard-surface scale build, milled and finished in-house for institutional display.",
-    image: "/images/work/apc-scale-model-hero.jpg",
-  },
-  {
-    slug: "people-and-co-union-day",
-    client: "People & Co",
-    title: "Union Day / Eid Ul Etihad",
-    type: "Theatrical scale props",
-    outcome: "UAE-coded show props at venue scale — designed, fabricated, installed.",
-    image: "/images/work/people-and-co-union-day-hero.jpg",
-  },
-  {
-    slug: "nyu-trophy",
-    client: "NYU Abu Dhabi",
-    title: "Basketball trophy",
-    type: "3D print, finishing",
-    outcome: "Clean 3D print, hand-finished for an institutional sporting award.",
-    image: "/images/work/nyu-trophy-hero.jpg",
-  },
-  {
-    slug: "graff",
-    client: "Graff",
-    title: "Luxury retail piece",
-    type: "Premium fabrication",
-    outcome: "Custom piece for a luxury house — discreet, exact, on time.",
-    image: "/images/work/graff-hero.jpg",
-  },
-];
+import { getCollection } from "astro:content";
+
+const entries = await getCollection("work", ({ data }) => !data.draft);
+const work = entries
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((e) => ({
+    slug: e.slug,
+    client: e.data.client,
+    title: e.data.title,
+    type: e.data.type,
+    outcome: e.data.outcome,
+    image: e.data.hero,
+  }));
 ---
 
 <section id="work" class="section" aria-labelledby="work-heading">

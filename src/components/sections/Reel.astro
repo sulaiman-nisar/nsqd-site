@@ -1,10 +1,8 @@
 ---
 // Self-hosted reel — HTML5 video facade. The <video> element is only created
 // when the user clicks play, so the 17 MB MP4 isn't requested on initial page
-// load. Until then we just show the poster + the saffron triangle button.
+// load. Until then the facade is a solid black panel with the saffron triangle.
 
-const VIDEO_SRC = "/reel-720p.mp4";
-const POSTER_SRC = "/reel-poster.jpg";
 const DURATION_LABEL = "01:32";
 ---
 
@@ -28,22 +26,9 @@ const DURATION_LABEL = "01:32";
     </header>
 
     <div
-      class="relative aspect-video w-full border border-edge bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.05),transparent_60%)] overflow-hidden group cursor-pointer"
+      class="relative aspect-video w-full border border-edge bg-ink overflow-hidden group cursor-pointer"
       data-reel-facade
     >
-      <img
-        src={POSTER_SRC}
-        alt="NSQD work reel — selected projects in motion"
-        loading="lazy"
-        decoding="async"
-        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-punch group-hover:scale-[1.02]"
-        onerror="this.style.display='none'"
-      />
-
-      <div
-        class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent"
-        aria-hidden="true"
-      ></div>
 
       <button
         type="button"
@@ -92,12 +77,10 @@ const DURATION_LABEL = "01:32";
 
 <script>
   const VIDEO_SRC = "/reel-720p.mp4";
-  const POSTER_SRC = "/reel-poster.jpg";
 
   const swap = (facade: Element) => {
     const video = document.createElement("video");
     video.src = VIDEO_SRC;
-    video.poster = POSTER_SRC;
     video.controls = true;
     video.autoplay = true;
     video.playsInline = true;

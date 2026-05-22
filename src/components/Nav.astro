@@ -1,10 +1,13 @@
 ---
+// Absolute hrefs so the nav resolves from sub-pages (e.g. /work/apc-scale-model).
+// On the homepage the Lenis interceptor in BaseLayout treats these as in-page
+// smooth scrolls; on sub-pages the browser navigates to the homepage anchor.
 const navItems = [
-  { label: "Work", href: "#work" },
-  { label: "The Floor", href: "#floor" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Studio", href: "#studio" },
-  { label: "Contact", href: "#contact" },
+  { label: "Work", href: "/#work" },
+  { label: "The Floor", href: "/#floor" },
+  { label: "Capabilities", href: "/#capabilities" },
+  { label: "Studio", href: "/#studio" },
+  { label: "Contact", href: "/#contact" },
 ];
 ---
 
@@ -34,7 +37,7 @@ const navItems = [
     </nav>
 
     <a
-      href="#contact"
+      href="/#contact"
       class="md:hidden text-paper/85 font-spec text-sm tag"
       aria-label="Contact"
     >

@@ -108,12 +108,24 @@ const plausibleDomain = site.plausibleDomain;
         };
         requestAnimationFrame(raf);
 
-        // Anchor links use Lenis for smooth scroll
-        document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+        // Lenis-driven smooth scroll for same-page anchors. Handles both
+        // bare "#anchor" and absolute "/#anchor" — the latter is what the
+        // nav uses so links resolve from sub-pages, but we still want
+        // smooth scroll when the user clicks them on the homepage.
+        document.querySelectorAll<HTMLAnchorElement>("a[href]").forEach((a) => {
           a.addEventListener("click", (e) => {
-            const id = a.getAttribute("href");
-            if (!id || id === "#") return;
-            const el = document.querySelector(id);
+            const href = a.getAttribute("href");
+            if (!href) return;
+            let url: URL;
+            try {
+              url = new URL(href, location.origin);
+            } catch {
+              return;
+            }
+            const samePath = url.pathname === location.pathname;
+            const hasHash = url.hash && url.hash !== "#";
+            if (!samePath || !hasHash) return;
+            const el = document.querySelector(url.hash);
             if (!el) return;
             e.preventDefault();
             lenis.scrollTo(el as HTMLElement, { offset: -64 });

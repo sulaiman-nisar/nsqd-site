@@ -85,6 +85,11 @@ const DURATION_LABEL = "01:32";
     video.autoplay = true;
     video.playsInline = true;
     video.preload = "metadata";
+    // Hide the download button + remote-playback in the player chrome.
+    // Doesn't prevent right-click save (which is fine — chasing that is hostile
+    // to legitimate users and trivially defeated).
+    video.setAttribute("controlsList", "nodownload noremoteplayback");
+    video.disableRemotePlayback = true;
     video.className = "absolute inset-0 w-full h-full bg-ink";
     facade.replaceChildren(video);
     facade.removeAttribute("data-reel-facade");

@@ -1,0 +1,50 @@
+---
+import { publicFileExists } from "~/lib/fileExists";
+
+interface Props {
+  leftSrc: string;
+  rightSrc: string;
+  leftAlt?: string;
+  rightAlt?: string;
+  caption?: string;
+}
+
+const { leftSrc, rightSrc, leftAlt = "", rightAlt = "", caption } = Astro.props;
+const leftExists = publicFileExists(leftSrc);
+const rightExists = publicFileExists(rightSrc);
+const anyExists = leftExists || rightExists;
+---
+
+{anyExists && (
+  <figure class="my-10">
+    <div class="grid sm:grid-cols-2 gap-4 md:gap-5">
+      {leftExists && (
+        <div class="relative aspect-[4/3] border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]">
+          <img
+            src={leftSrc}
+            alt={leftAlt}
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
+      )}
+      {rightExists && (
+        <div class="relative aspect-[4/3] border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]">
+          <img
+            src={rightSrc}
+            alt={rightAlt}
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+        </div>
+      )}
+    </div>
+    {caption && (
+      <figcaption class="mt-3 font-spec text-mute text-sm">
+        {caption}
+      </figcaption>
+    )}
+  </figure>
+)}

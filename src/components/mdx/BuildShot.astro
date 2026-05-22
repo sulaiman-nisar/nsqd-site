@@ -1,0 +1,43 @@
+---
+import { publicFileExists } from "~/lib/fileExists";
+
+interface Props {
+  src: string;
+  alt?: string;
+  caption?: string;
+  aspect?: "16/9" | "4/3" | "3/2" | "1/1";
+}
+
+const { src, alt = "", caption, aspect = "16/9" } = Astro.props;
+
+const aspectClass = {
+  "16/9": "aspect-[16/9]",
+  "4/3": "aspect-[4/3]",
+  "3/2": "aspect-[3/2]",
+  "1/1": "aspect-square",
+}[aspect];
+
+const exists = publicFileExists(src);
+---
+
+{exists && (
+  <figure class="my-10">
+    <div class:list={[
+      "relative w-full border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]",
+      aspectClass,
+    ]}>
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        class="absolute inset-0 w-full h-full object-cover"
+      />
+    </div>
+    {caption && (
+      <figcaption class="mt-3 font-spec text-mute text-sm">
+        {caption}
+      </figcaption>
+    )}
+  </figure>
+)}

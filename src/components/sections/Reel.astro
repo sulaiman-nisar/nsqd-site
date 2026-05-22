@@ -1,0 +1,150 @@
+---
+// Lazy Vimeo facade — only loads the Vimeo player iframe + JS on click.
+// Auto-thumbnail and duration are pulled from Vimeo's oembed at build time.
+// If the build host can't reach Vimeo (offline CI, etc.), the section still
+// renders with a gradient placeholder + working play button.
+
+const VIDEO_ID = "1010125085";
+const VIDEO_URL = `https://vimeo.com/${VIDEO_ID}`;
+
+let thumb: string | null = null;
+let durationLabel: string | null = null;
+
+try {
+  const res = await fetch(
+    `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(VIDEO_URL)}&width=1280`,
+    { signal: AbortSignal.timeout(5000) },
+  );
+  if (res.ok) {
+    const data: { thumbnail_url?: string; duration?: number } = await res.json();
+    if (data.thumbnail_url) {
+      // Vimeo serves a low-res default; bumping the dimension token gets a crisper still.
+      thumb = data.thumbnail_url.replace(/_\d+x\d+/, "_1280x720");
+    }
+    if (typeof data.duration === "number" && data.duration > 0) {
+      const mm = Math.floor(data.duration / 60);
+      const ss = String(data.duration % 60).padStart(2, "0");
+      durationLabel = `${String(mm).padStart(2, "0")}:${ss}`;
+    }
+  }
+} catch {
+  // Swallow — fall back to placeholder rendering.
+}
+---
+
+<section
+  id="reel"
+  class="section bg-ink relative"
+  aria-labelledby="reel-heading"
+>
+  <div class="wrap">
+    <header class="mb-10 md:mb-12 flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class="eyebrow">The reel</p>
+        <h2
+          id="reel-heading"
+          class="mt-3 text-h1 font-extrabold tracking-tightest max-w-3xl"
+        >
+          Ninety seconds. <span class="hl">Selected work in motion.</span>
+        </h2>
+      </div>
+      {durationLabel && (
+        <span class="font-spec text-mute text-sm">Runtime {durationLabel}</span>
+      )}
+    </header>
+
+    <div
+      class="relative aspect-video w-full border border-edge bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.05),transparent_60%)] overflow-hidden group cursor-pointer"
+      data-reel-facade
+      data-video-id={VIDEO_ID}
+    >
+      {thumb && (
+        <img
+          src={thumb}
+          alt="NSQD work reel — selected projects in motion"
+          loading="lazy"
+          decoding="async"
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-punch group-hover:scale-[1.02]"
+          onerror="this.style.display='none'"
+        />
+      )}
+
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent"
+        aria-hidden="true"
+      ></div>
+
+      <button
+        type="button"
+        class="absolute inset-0 grid place-items-center w-full h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sun"
+        aria-label="Play NSQD work reel"
+      >
+        <span
+          class="grid place-items-center w-28 h-28 md:w-40 md:h-40 transition-transform duration-300 ease-punch group-hover:scale-110"
+        >
+          <svg
+            viewBox="0 0 112 112"
+            fill="none"
+            stroke="#FFB600"
+            stroke-width="3.5"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            aria-hidden="true"
+            class="w-full h-full"
+            style="filter: drop-shadow(0 8px 22px rgba(0,0,0,0.6));"
+          >
+            <polygon points="38,22 38,90 92,56" />
+          </svg>
+        </span>
+      </button>
+
+      <div
+        class="pointer-events-none absolute bottom-4 left-4 right-4 md:bottom-5 md:left-5 md:right-5 flex items-end justify-between gap-4 text-paper"
+      >
+        <div>
+          <div class="font-spec text-xs uppercase tracking-widest text-paper/70">
+            {durationLabel ? `Reel · ${durationLabel}` : "Reel"}
+          </div>
+          <div class="mt-1 text-sm md:text-base font-spec">
+            Activations · objects · prints · installs
+          </div>
+        </div>
+        <div
+          class="font-spec text-xs uppercase tracking-widest text-paper/70 hidden sm:block"
+        >
+          Click to play
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const swap = (facade: Element) => {
+    const id = facade.getAttribute("data-video-id");
+    if (!id) return;
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0&dnt=1`;
+    iframe.setAttribute(
+      "allow",
+      "autoplay; fullscreen; picture-in-picture; encrypted-media",
+    );
+    iframe.setAttribute("allowfullscreen", "");
+    iframe.setAttribute("title", "NSQD work reel");
+    iframe.className = "absolute inset-0 w-full h-full border-0";
+    facade.replaceChildren(iframe);
+    facade.removeAttribute("data-reel-facade");
+    facade.classList.remove("cursor-pointer", "group");
+  };
+
+  document.querySelectorAll("[data-reel-facade]").forEach((facade) => {
+    facade.addEventListener("click", () => swap(facade));
+    facade.addEventListener("keydown", (e) => {
+      const ev = e as KeyboardEvent;
+      if (ev.key === "Enter" || ev.key === " ") {
+        ev.preventDefault();
+        swap(facade);
+      }
+    });
+  });
+</script>

@@ -1,35 +1,11 @@
 ---
-// Lazy Vimeo facade — only loads the Vimeo player iframe + JS on click.
-// Auto-thumbnail and duration are pulled from Vimeo's oembed at build time.
-// If the build host can't reach Vimeo (offline CI, etc.), the section still
-// renders with a gradient placeholder + working play button.
+// Self-hosted reel — HTML5 video facade. The <video> element is only created
+// when the user clicks play, so the 17 MB MP4 isn't requested on initial page
+// load. Until then we just show the poster + the saffron triangle button.
 
-const VIDEO_ID = "1010125085";
-const VIDEO_URL = `https://vimeo.com/${VIDEO_ID}`;
-
-let thumb: string | null = null;
-let durationLabel: string | null = null;
-
-try {
-  const res = await fetch(
-    `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(VIDEO_URL)}&width=1280`,
-    { signal: AbortSignal.timeout(5000) },
-  );
-  if (res.ok) {
-    const data: { thumbnail_url?: string; duration?: number } = await res.json();
-    if (data.thumbnail_url) {
-      // Vimeo serves a low-res default; bumping the dimension token gets a crisper still.
-      thumb = data.thumbnail_url.replace(/_\d+x\d+/, "_1280x720");
-    }
-    if (typeof data.duration === "number" && data.duration > 0) {
-      const mm = Math.floor(data.duration / 60);
-      const ss = String(data.duration % 60).padStart(2, "0");
-      durationLabel = `${String(mm).padStart(2, "0")}:${ss}`;
-    }
-  }
-} catch {
-  // Swallow — fall back to placeholder rendering.
-}
+const VIDEO_SRC = "/reel-720p.mp4";
+const POSTER_SRC = "/reel-poster.jpg";
+const DURATION_LABEL = "01:32";
 ---
 
 <section
@@ -48,26 +24,21 @@ try {
           Ninety seconds. <span class="hl">Selected work in motion.</span>
         </h2>
       </div>
-      {durationLabel && (
-        <span class="font-spec text-mute text-sm">Runtime {durationLabel}</span>
-      )}
+      <span class="font-spec text-mute text-sm">Runtime {DURATION_LABEL}</span>
     </header>
 
     <div
       class="relative aspect-video w-full border border-edge bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.05),transparent_60%)] overflow-hidden group cursor-pointer"
       data-reel-facade
-      data-video-id={VIDEO_ID}
     >
-      {thumb && (
-        <img
-          src={thumb}
-          alt="NSQD work reel — selected projects in motion"
-          loading="lazy"
-          decoding="async"
-          class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-punch group-hover:scale-[1.02]"
-          onerror="this.style.display='none'"
-        />
-      )}
+      <img
+        src={POSTER_SRC}
+        alt="NSQD work reel — selected projects in motion"
+        loading="lazy"
+        decoding="async"
+        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-punch group-hover:scale-[1.02]"
+        onerror="this.style.display='none'"
+      />
 
       <div
         class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/10 to-transparent"
@@ -103,7 +74,7 @@ try {
       >
         <div>
           <div class="font-spec text-xs uppercase tracking-widest text-paper/70">
-            {durationLabel ? `Reel · ${durationLabel}` : "Reel"}
+            Reel · {DURATION_LABEL}
           </div>
           <div class="mt-1 text-sm md:text-base font-spec">
             Activations · objects · prints · installs
@@ -120,19 +91,19 @@ try {
 </section>
 
 <script>
+  const VIDEO_SRC = "/reel-720p.mp4";
+  const POSTER_SRC = "/reel-poster.jpg";
+
   const swap = (facade: Element) => {
-    const id = facade.getAttribute("data-video-id");
-    if (!id) return;
-    const iframe = document.createElement("iframe");
-    iframe.src = `https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0&dnt=1`;
-    iframe.setAttribute(
-      "allow",
-      "autoplay; fullscreen; picture-in-picture; encrypted-media",
-    );
-    iframe.setAttribute("allowfullscreen", "");
-    iframe.setAttribute("title", "NSQD work reel");
-    iframe.className = "absolute inset-0 w-full h-full border-0";
-    facade.replaceChildren(iframe);
+    const video = document.createElement("video");
+    video.src = VIDEO_SRC;
+    video.poster = POSTER_SRC;
+    video.controls = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.preload = "metadata";
+    video.className = "absolute inset-0 w-full h-full bg-ink";
+    facade.replaceChildren(video);
     facade.removeAttribute("data-reel-facade");
     facade.classList.remove("cursor-pointer", "group", "border", "border-edge");
   };

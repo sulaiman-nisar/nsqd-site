@@ -134,7 +134,7 @@ try {
     iframe.className = "absolute inset-0 w-full h-full border-0";
     facade.replaceChildren(iframe);
     facade.removeAttribute("data-reel-facade");
-    facade.classList.remove("cursor-pointer", "group");
+    facade.classList.remove("cursor-pointer", "group", "border", "border-edge");
   };
 
   document.querySelectorAll("[data-reel-facade]").forEach((facade) => {

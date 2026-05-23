@@ -41,8 +41,10 @@ import { prefills } from "~/lib/whatsapp";
 
     <!-- Hero centerpiece: APC scale model, blueprint-to-solid animation rendered in Blender from CAD geometry.
          The video element autoplays, muted, looping. prefers-reduced-motion swaps to a static poster of the
-         final solid frame. Phase 2 will swap this for an interactive Three.js GLB. -->
-    <div class="relative aspect-[4/5] lg:aspect-square w-full">
+         final solid frame. Phase 2 will swap this for an interactive Three.js GLB.
+         Container is aspect-video (16:9) to match the source MP4 natively — no crop, full APC visible.
+         Was aspect-[4/5] mobile + aspect-square desktop, which cropped ~28 % off the sides. -->
+    <div class="relative aspect-video w-full">
       <video
         class="hero-video absolute inset-0 w-full h-full object-cover rounded-sm border border-edge"
         autoplay

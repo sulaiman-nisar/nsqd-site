@@ -8,7 +8,7 @@ import { prefills } from "~/lib/whatsapp";
   class="relative overflow-hidden border-b border-edge"
   aria-labelledby="hero-heading"
 >
-  <div class="wrap px-gutter pt-12 pb-section grid lg:grid-cols-[1.1fr_1fr] gap-12 items-center min-h-[78vh]">
+  <div class="wrap px-gutter pt-12 pb-section grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center min-h-[78vh]">
     <div>
       <p class="eyebrow">Dubai · Cape Town</p>
 
@@ -42,9 +42,11 @@ import { prefills } from "~/lib/whatsapp";
     <!-- Hero centerpiece: APC scale model, blueprint-to-solid animation rendered in Blender from CAD geometry.
          The video element autoplays, muted, looping. prefers-reduced-motion swaps to a static poster of the
          final solid frame. Phase 2 will swap this for an interactive Three.js GLB.
-         Container is aspect-video (16:9) to match the source MP4 natively — no crop, full APC visible.
-         Was aspect-[4/5] mobile + aspect-square desktop, which cropped ~28 % off the sides. -->
-    <div class="relative aspect-video w-full">
+         Container is aspect-[3/2] — taller than 16:9 (gives the video visual weight against the big
+         headline) but much wider than aspect-square. With object-cover, crops ~8 % off each side of
+         the source 16:9 video. Was aspect-video (full APC visible but felt small + floating);
+         was previously aspect-square which cropped 22 % off each side. -->
+    <div class="relative aspect-[3/2] w-full">
       <video
         class="hero-video absolute inset-0 w-full h-full object-cover rounded-sm border border-edge"
         autoplay

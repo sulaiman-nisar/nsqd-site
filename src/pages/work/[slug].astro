@@ -9,6 +9,7 @@ import Stat from "~/components/mdx/Stat.astro";
 import Pull from "~/components/mdx/Pull.astro";
 import BuildShot from "~/components/mdx/BuildShot.astro";
 import BuildPair from "~/components/mdx/BuildPair.astro";
+import CaseStudySchema from "~/components/CaseStudySchema.astro";
 
 export async function getStaticPaths() {
   const entries = await getCollection("work", ({ data }) => !data.draft);
@@ -43,7 +44,10 @@ const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
   title={`${d.client} — ${d.title} | NSQD`}
   description={d.outcome}
   pathname={`/work/${entry.slug}`}
+  ogImage={d.hero}
 >
+  <CaseStudySchema slug={entry.slug} data={d} />
+
   <article class="wrap px-gutter pt-12">
     <a href="/#work" class="font-spec text-mute text-sm hover:text-paper transition-colors">← Back to work</a>
 
@@ -104,7 +108,7 @@ const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
         <div class="grid sm:grid-cols-2 gap-4 md:gap-5">
           {galleryFiltered.map((src) => (
             <figure class="relative aspect-[4/3] border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]">
-              <img src={src} alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+              <img src={src} alt={`${d.client} — ${d.title} (gallery)`} loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
             </figure>
           ))}
         </div>

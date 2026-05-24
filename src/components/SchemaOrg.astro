@@ -1,0 +1,111 @@
+---
+// JSON-LD structured data for NSQD.
+// Emits four schema blocks on every page:
+//   1. Organization — global identity (logo, contact, social)
+//   2. WebSite — names the site, links to the organisation
+//   3. LocalBusiness × 2 — Dubai workshop + Cape Town studio
+// Per-page schemas (e.g. CreativeWork for case studies) are emitted
+// separately by the page that needs them, alongside this base.
+
+import { site } from "~/lib/site";
+
+const ORG_ID = `${site.url}/#organization`;
+const SITE_ID = `${site.url}/#website`;
+const DUBAI_ID = `${site.url}/#dubai`;
+const CAPETOWN_ID = `${site.url}/#capetown`;
+
+const organization = {
+  "@type": "Organization",
+  "@id": ORG_ID,
+  name: site.name,
+  alternateName: site.longName,
+  url: site.url,
+  logo: `${site.url}/images/logo/nsqd-logo.svg`,
+  description:
+    "Bespoke fabrication and brand activation studio. End-to-end production or by-the-part manufacturing from workshops in Dubai and Cape Town.",
+  sameAs: [site.social.instagram, site.social.linkedin],
+  email: site.emails.projects,
+  knowsAbout: site.capabilities,
+  areaServed: ["AE", "ZA", "United Arab Emirates", "South Africa"],
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      email: site.emails.projects,
+      telephone: `+${site.whatsapp.projects}`,
+      areaServed: ["AE", "ZA"],
+      availableLanguage: ["English"],
+    },
+    {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      email: site.emails.quotes,
+      telephone: `+${site.whatsapp.quotes}`,
+      areaServed: ["AE", "ZA"],
+      availableLanguage: ["English"],
+    },
+  ],
+};
+
+const website = {
+  "@type": "WebSite",
+  "@id": SITE_ID,
+  url: site.url,
+  name: site.name,
+  publisher: { "@id": ORG_ID },
+  inLanguage: "en",
+};
+
+const dubaiOffice = {
+  "@type": "LocalBusiness",
+  "@id": DUBAI_ID,
+  name: `${site.name} — Dubai`,
+  parentOrganization: { "@id": ORG_ID },
+  url: site.url,
+  image: `${site.url}/images/hero/apc-hero-poster.jpg`,
+  telephone: `+${site.whatsapp.projects}`,
+  email: site.emails.projects,
+  priceRange: "$$-$$$",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.offices[0].area,
+    addressLocality: site.offices[0].city,
+    addressCountry: site.offices[0].country,
+  },
+  areaServed: ["AE", "GCC"],
+  makesOffer: site.capabilities.map((c) => ({
+    "@type": "Offer",
+    itemOffered: { "@type": "Service", name: c },
+  })),
+};
+
+const capeTownOffice = {
+  "@type": "LocalBusiness",
+  "@id": CAPETOWN_ID,
+  name: `${site.name} — Cape Town`,
+  parentOrganization: { "@id": ORG_ID },
+  url: site.url,
+  image: `${site.url}/images/hero/apc-hero-poster.jpg`,
+  telephone: `+${site.whatsapp.quotes}`,
+  email: site.emails.quotes,
+  priceRange: "$$-$$$",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.offices[1].area,
+    addressLocality: site.offices[1].city,
+    addressCountry: site.offices[1].country,
+  },
+  areaServed: ["ZA", "Southern Africa"],
+  makesOffer: site.capabilities.map((c) => ({
+    "@type": "Offer",
+    itemOffered: { "@type": "Service", name: c },
+  })),
+};
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [organization, website, dubaiOffice, capeTownOffice],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

@@ -3,6 +3,7 @@ import "~/styles/global.css";
 import Nav from "~/components/Nav.astro";
 import Footer from "~/components/Footer.astro";
 import FloatingWhatsApp from "~/components/FloatingWhatsApp.astro";
+import SchemaOrg from "~/components/SchemaOrg.astro";
 import { site } from "~/lib/site";
 
 interface Props {
@@ -16,7 +17,10 @@ const {
   title = "NSQD — Bespoke fabrication and brand activation",
   description = "Bespoke fabrication and brand activation. End-to-end, or by the part. Dubai + Cape Town.",
   pathname,
-  ogImage = "/og-default.jpg",
+  // Default OG image is the APC hero poster (real file, lives in /images/hero/).
+  // Previous default referenced /og-default.jpg which didn't exist — link previews
+  // on LinkedIn/Twitter/Slack were silently broken.
+  ogImage = "/images/hero/apc-hero-poster.jpg",
 } = Astro.props;
 
 const canonical = new URL(pathname ?? Astro.url.pathname, site.url).toString();
@@ -61,6 +65,11 @@ const plausibleDomain = site.plausibleDomain;
       data-domain={plausibleDomain}
       src="https://plausible.io/js/script.tagged-events.outbound-links.js"
     ></script>
+
+    <!-- JSON-LD structured data — Organization, WebSite, LocalBusiness×2.
+         Page-specific schemas (CreativeWork on case studies) are emitted
+         by the page itself, after this base. -->
+    <SchemaOrg />
   </head>
 
   <body class="bg-ink text-paper antialiased">

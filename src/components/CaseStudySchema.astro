@@ -1,0 +1,102 @@
+---
+// CreativeWork JSON-LD for an individual case study page.
+// Tells search engines and AI agents this is a specific project NSQD made
+// for a specific client, with capabilities and materials. Pairs with the
+// global Organization schema in SchemaOrg.astro.
+
+import { site } from "~/lib/site";
+
+interface Props {
+  slug: string;
+  data: {
+    title: string;
+    client: string;
+    type: string;
+    year?: number;
+    outcome: string;
+    hero: string;
+    sectors: string[];
+    capabilities: string[];
+    materials?: string[];
+    deliveredAt?: string;
+  };
+}
+
+const { slug, data } = Astro.props;
+
+const pageUrl = `${site.url}/work/${slug}`;
+const imageUrl = data.hero.startsWith("http") ? data.hero : `${site.url}${data.hero}`;
+
+const keywords = [
+  data.client,
+  data.type,
+  ...data.sectors,
+  ...data.capabilities,
+  ...(data.materials ?? []),
+].filter(Boolean).join(", ");
+
+const creativeWork: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "@id": `${pageUrl}#work`,
+  name: `${data.title} — ${data.client}`,
+  headline: data.title,
+  description: data.outcome,
+  image: imageUrl,
+  url: pageUrl,
+  creator: { "@id": `${site.url}/#organization` },
+  inLanguage: "en",
+  keywords,
+};
+
+if (data.year) {
+  creativeWork.dateCreated = String(data.year);
+}
+
+if (data.materials && data.materials.length > 0) {
+  creativeWork.material = data.materials;
+}
+
+if (data.deliveredAt) {
+  creativeWork.locationCreated = {
+    "@type": "Place",
+    name: data.deliveredAt,
+  };
+}
+
+if (data.capabilities.length > 0) {
+  creativeWork.about = data.capabilities.map((c) => ({
+    "@type": "Thing",
+    name: c,
+  }));
+}
+
+// BreadcrumbList helps Google render breadcrumbs in search snippets and
+// gives AI agents a navigation graph for this page's place in the site.
+const breadcrumbs = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: `${site.url}/`,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Selected work",
+      item: `${site.url}/#work`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: `${data.client} — ${data.title}`,
+    },
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(creativeWork)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbs)} />

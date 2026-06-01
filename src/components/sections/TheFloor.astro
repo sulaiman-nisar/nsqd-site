@@ -31,11 +31,11 @@ const stages = [
       One traveller dot through the entire fabrication path.
     </p>
 
-    <!-- Pipeline diagram. Two variants — single-row landscape for >=md (tablet+ / desktop),
+    <!-- Pipeline diagram. Two variants: single-row landscape for >=md (tablet+ / desktop),
          two-row U-curve for mobile. CSS toggles which renders. Each variant has its
          own SVG + path + animateMotion so the traveller dot follows the correct geometry. -->
 
-    <!-- DESKTOP / TABLET (≥md) — single row, full 1200×220 viewBox -->
+    <!-- DESKTOP / TABLET (>=md): single row, full 1200x220 viewBox -->
     <div class="mt-12 relative hidden md:block" data-floor-diagram>
       <svg
         viewBox="0 0 1200 220"
@@ -94,11 +94,11 @@ const stages = [
       </svg>
 
       <div class="mt-6 font-spec text-mute text-sm">
-        CAD · laser · UV · 3D · assembly — all on one floor.
+        CAD · laser · UV · 3D · assembly, all on one floor.
       </div>
     </div>
 
-    <!-- MOBILE (<md) — 2 rows: 3 stations top, 2 stations bottom, S-curve path.
+    <!-- MOBILE (<md): 2 rows, 3 stations top, 2 stations bottom, S-curve path.
          400×340 viewBox keeps station markers + labels legible at narrow widths. -->
     <div class="mt-12 relative block md:hidden" data-floor-diagram-mobile>
       <svg
@@ -163,7 +163,7 @@ const stages = [
       </svg>
 
       <div class="mt-6 font-spec text-mute text-sm">
-        CAD · laser · UV · 3D · assembly — all on one floor.
+        CAD · laser · UV · 3D · assembly, all on one floor.
       </div>
     </div>
   </div>

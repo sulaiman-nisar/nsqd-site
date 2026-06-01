@@ -23,7 +23,7 @@ import { prefills } from "~/lib/whatsapp";
 
       <p class="mt-7 max-w-xl text-paper/85 text-lg leading-relaxed">
         A warehouse in Dubai. A studio in Cape Town. One team that builds,
-        prints, cuts and installs — for the brief or for the parts list.
+        prints, cuts and installs, for the brief or for the parts list.
       </p>
 
       <div class="mt-9 flex flex-wrap gap-3 items-center">
@@ -42,10 +42,10 @@ import { prefills } from "~/lib/whatsapp";
     <!-- Hero centerpiece: APC scale model, blueprint-to-solid animation rendered in Blender from CAD geometry.
          The video element autoplays, muted, looping. prefers-reduced-motion swaps to a static poster of the
          final solid frame. Phase 2 will swap this for an interactive Three.js GLB.
-         Container is aspect-[3/2] — taller than 16:9 (gives the video visual weight against the big
-         headline) but much wider than aspect-square. With object-cover, crops ~8 % off each side of
-         the source 16:9 video. Was aspect-video (full APC visible but felt small + floating);
-         was previously aspect-square which cropped 22 % off each side. -->
+         Container is aspect-[3/2], taller than 16:9 (gives the video visual weight against the big
+         headline) but much wider than aspect-square. With object-cover, crops ~8% off each side of
+         the source 16:9 video. Was aspect-video (full APC visible but felt small and floating);
+         was previously aspect-square which cropped 22% off each side. -->
     <div class="relative aspect-[3/2] w-full">
       <video
         class="hero-video absolute inset-0 w-full h-full object-cover rounded-sm border border-edge"
@@ -55,7 +55,7 @@ import { prefills } from "~/lib/whatsapp";
         playsinline
         preload="auto"
         poster="/images/hero/apc-hero-poster.jpg"
-        aria-label="APC scale model — blueprint materializing into the fabricated piece"
+        aria-label="APC scale model, blueprint materializing into the fabricated piece"
       >
         <source src="/videos/apc-hero.mp4" type="video/mp4" />
       </video>
@@ -65,7 +65,7 @@ import { prefills } from "~/lib/whatsapp";
         alt="APC scale model fabricated by NSQD for the IDEX display case"
         loading="eager"
       />
-      <!-- Corner registration marks — fabrication-shop visual cue, not decoration -->
+      <!-- Corner registration marks: fabrication-shop visual cue, not decoration -->
       <svg class="absolute top-0 left-0 text-sun/60 z-10" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M0 6V0h6"/></svg>
       <svg class="absolute top-0 right-0 text-sun/60 z-10" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M16 0h6v6"/></svg>
       <svg class="absolute bottom-0 left-0 text-sun/60 z-10" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><path d="M0 16v6h6"/></svg>

@@ -1,10 +1,10 @@
-# NSQD — Necessity Squared
+# NSQD, Necessity Squared
 
 > Bespoke fabrication and brand activation studio operating from Jebel Ali
 > in Dubai and Wynberg in Cape Town. End-to-end production, or by-the-part
 > manufacturing for designers, brands, and creative production houses.
 
-NSQD designs, fabricates, and installs physical objects at scale — brand
+NSQD designs, fabricates, and installs physical objects at scale: brand
 activations, theatrical scale props, scale models, retail kits, trophies,
 production runs, and bespoke commissions. Two cities, one team.
 
@@ -15,29 +15,35 @@ production capabilities:
 
 - CO2 laser cutting (acrylic, MDF, paper, fabric)
 - Fiber laser cutting (stainless steel, aluminium, brass)
-- UV flatbed printing (direct-to-rigid substrate, 4×8 ft bed)
+- UV flatbed printing (direct-to-rigid substrate, 4x8 ft bed)
 - ECO solvent large-format printing (vinyl, banner, textile)
 - DTF (direct-to-film) textile transfer
 - 3D printing (FDM, SLA, resin finishing)
 - CAD/CAM design and production engineering
-- Assembly and on-site installation (UAE + South Africa)
+- Assembly and on-site installation (UAE and South Africa)
 
 Two buyer paths:
-- **End-to-end** — turnkey project from brief to install
-- **By the part** — quoted production for clients with a shopping list
+- End-to-end: turnkey project from brief to install
+- By the part: quoted production for clients with a shopping list
 
 ## Selected work
 
-- 1Rebel — interactive prize wheel for a fitness pop-up (CO2 laser + UV
+- 1Rebel: interactive prize wheel for a fitness pop-up (CO2 laser plus UV
   flatbed, 14 days brief-to-opening)
-- IDEX Display — APC scale model for institutional display (large-format
-  SLA 3D-print + hand-finishing, 6 weeks)
-- People & Co — multi-year production partnership covering Union Day 2023
+- IDEX Display: APC scale model for institutional display (large-format
+  SLA 3D-print plus hand-finishing, 6 weeks)
+- People & Co: multi-year production partnership covering Union Day 2023
   diorama boxes, Eid Al Etihad 2024 large-scale palm fronds, and the
   Natural History Museum 2026 ember props for live broadcast
-- NYU Abu Dhabi — institutional basketball trophy (SLA + hand-finishing)
-- Graff — bamboo fan and velvet-pouch kit for a brand activation
+- NYU Abu Dhabi: institutional basketball trophy (SLA plus hand-finishing)
+- Graff: bamboo fan and velvet-pouch kit for a brand activation
   (Pantone-matched, hand-engraved)
+
+## Markets served
+
+- UAE and the wider GCC, from the Dubai workshop
+- South Africa, nationwide, from the Cape Town studio
+- UK and EU agencies producing events in the GCC, built locally in Dubai
 
 ## Where to find more
 
@@ -45,13 +51,19 @@ Two buyer paths:
 - Case studies index: https://nsqd.co/#work
 - The Floor (production pipeline): https://nsqd.co/#floor
 - Capabilities (make-a-part): https://nsqd.co/#capabilities
-- Studio (locations): https://nsqd.co/#studio
+- FAQ: https://nsqd.co/#faq
+- For South African clients: https://nsqd.co/south-africa
+- For UK and EU agencies: https://nsqd.co/uk
 - Contact form: https://nsqd.co/#contact
+
+## Reputation
+
+NSQD holds a 4.7 out of 5 rating on Google (Dubai listing).
 
 ## How to reach NSQD
 
-- New project / partnership: sulaiman@nsqd.co
-- Quote / parts list: pranav@nsqd.co
+- New project or partnership: sulaiman@nsqd.co
+- Quote or parts list: pranav@nsqd.co
 - WhatsApp (projects): +971 55 147 6222
 - WhatsApp (quotes): +971 50 275 3175
 - Instagram: https://www.instagram.com/nsqdae/
@@ -59,13 +71,13 @@ Two buyer paths:
 
 ## Offices
 
-- **Dubai** — Jebel Ali, United Arab Emirates (primary fabrication workshop)
-- **Cape Town** — Wynberg, South Africa (studio + installation team)
+- Dubai: Jebel Ali, United Arab Emirates (primary fabrication workshop)
+- Cape Town: Wynberg, South Africa (studio plus installation team)
 
 ## Brand and tone
 
 NSQD's voice is workshop-first: confident, not corporate. The studio
-emphasises what's visible on the floor — materials, machines, kerf
+emphasises what's visible on the floor: materials, machines, kerf
 edges, build photos, named brands, named numbers, named deadlines.
 Adverts and agency-speak are explicitly avoided.
 

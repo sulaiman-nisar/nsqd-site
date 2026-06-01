@@ -11,7 +11,7 @@ import { site } from "~/lib/site";
       </h2>
       <p class="mt-5 text-paper/85 leading-relaxed max-w-xl">
         NSQD operates from a fabrication warehouse in Jebel Ali, Dubai, and a studio
-        in Wynberg, Cape Town. The same people on the same brief — design from one
+        in Wynberg, Cape Town. The same people on the same brief. Design from one
         side, production from the other, install wherever it lands.
       </p>
       <p class="mt-4 text-paper/85 leading-relaxed max-w-xl">
@@ -29,6 +29,32 @@ import { site } from "~/lib/site";
           <p class="mt-4 text-paper/85 text-sm leading-relaxed">{office.address}</p>
         </article>
       ))}
+    </div>
+  </div>
+
+  <div class="wrap mt-12 pt-8 border-t border-edge">
+    <p class="font-spec text-mute text-sm">Producing from somewhere specific?</p>
+    <div class="mt-4 grid sm:grid-cols-2 gap-4">
+      <a
+        href="/south-africa"
+        class="group flex items-center justify-between gap-4 border border-edge bg-ink/40 p-5 transition-all duration-300 ease-punch hover:border-paper"
+      >
+        <span>
+          <span class="font-bold tracking-tightest">South Africa</span>
+          <span class="block font-spec text-mute text-sm mt-0.5">Cape Town studio, nationwide install</span>
+        </span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0 text-sun transition-transform duration-200 group-hover:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a
+        href="/uk"
+        class="group flex items-center justify-between gap-4 border border-edge bg-ink/40 p-5 transition-all duration-300 ease-punch hover:border-paper"
+      >
+        <span>
+          <span class="font-bold tracking-tightest">UK &amp; EU agencies</span>
+          <span class="block font-spec text-mute text-sm mt-0.5">Producing in the GCC, built locally</span>
+        </span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="shrink-0 text-sun transition-transform duration-200 group-hover:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
     </div>
   </div>
 </section>

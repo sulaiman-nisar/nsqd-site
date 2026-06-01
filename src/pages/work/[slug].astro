@@ -41,7 +41,7 @@ const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
 ---
 
 <BaseLayout
-  title={`${d.client} — ${d.title} | NSQD`}
+  title={`${d.client}: ${d.title} | NSQD`}
   description={d.outcome}
   pathname={`/work/${entry.slug}`}
   ogImage={d.hero}
@@ -64,7 +64,7 @@ const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
     <figure class="mt-12 relative aspect-[16/9] border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]">
       <img
         src={d.hero}
-        alt={`${d.client} — ${d.title}`}
+        alt={`${d.client}, ${d.title}`}
         class="absolute inset-0 w-full h-full object-cover"
         onerror="this.style.display='none'"
       />
@@ -108,7 +108,7 @@ const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
         <div class="grid sm:grid-cols-2 gap-4 md:gap-5">
           {galleryFiltered.map((src) => (
             <figure class="relative aspect-[4/3] border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]">
-              <img src={src} alt={`${d.client} — ${d.title} (gallery)`} loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+              <img src={src} alt={`${d.client}, ${d.title} (gallery)`} loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
             </figure>
           ))}
         </div>
@@ -121,7 +121,7 @@ const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
         Want one of these?
       </h2>
       <p class="mt-3 text-paper/85 max-w-xl">
-        Hit Sulaiman on WhatsApp — he'll have a sense of scope and timing in the
+        Hit Sulaiman on WhatsApp. He'll have a sense of scope and timing in the
         first reply.
       </p>
       <div class="mt-7">

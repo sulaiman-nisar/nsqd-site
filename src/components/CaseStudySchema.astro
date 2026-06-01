@@ -39,7 +39,7 @@ const creativeWork: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "CreativeWork",
   "@id": `${pageUrl}#work`,
-  name: `${data.title} — ${data.client}`,
+  name: `${data.title}, ${data.client}`,
   headline: data.title,
   description: data.outcome,
   image: imageUrl,
@@ -92,7 +92,7 @@ const breadcrumbs = {
     {
       "@type": "ListItem",
       position: 3,
-      name: `${data.client} — ${data.title}`,
+      name: `${data.client}, ${data.title}`,
     },
   ],
 };

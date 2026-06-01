@@ -14,7 +14,7 @@ interface Props {
 }
 
 const {
-  title = "NSQD — Bespoke fabrication and brand activation",
+  title = "NSQD | Bespoke fabrication and brand activation",
   description = "Bespoke fabrication and brand activation. End-to-end, or by the part. Dubai + Cape Town.",
   pathname,
   // Default OG image is the APC hero poster (real file, lives in /images/hero/).
@@ -58,7 +58,7 @@ const plausibleDomain = site.plausibleDomain;
     <meta property="og:site_name" content="NSQD" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Plausible analytics — privacy-respecting, no cookies -->
+    <!-- Plausible analytics: privacy-respecting, no cookies -->
     <script
       is:inline
       defer
@@ -66,7 +66,7 @@ const plausibleDomain = site.plausibleDomain;
       src="https://plausible.io/js/script.tagged-events.outbound-links.js"
     ></script>
 
-    <!-- JSON-LD structured data — Organization, WebSite, LocalBusiness×2.
+    <!-- JSON-LD structured data: Organization, WebSite, LocalBusiness x2.
          Page-specific schemas (CreativeWork on case studies) are emitted
          by the page itself, after this base. -->
     <SchemaOrg />
@@ -92,7 +92,7 @@ const plausibleDomain = site.plausibleDomain;
 
     <!-- Atmospheric film grain overlay. Fixed, pointer-events:none, mix-blend-mode:overlay.
          Sits above all content visually but never blocks interaction. SVG fractal noise
-         inline as data URI — no extra HTTP request, ~1KB. Below 5% opacity so it adds
+         inline as data URI, no extra HTTP request, ~1KB. Below 5% opacity so it adds
          texture without being noticed. Skipped under prefers-reduced-motion. -->
     <div class="grain-overlay" aria-hidden="true"></div>
 

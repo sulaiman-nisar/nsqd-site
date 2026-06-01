@@ -89,8 +89,9 @@ Don't name a client on social unless they've already been published on the websi
 - **No motivational quote graphics.** "Monday motivation," "build something," etc.
 - **No engagement bait.** "Drop a 🔥 if...", "DOUBLE TAP if you...", "Comment YES if..."
 - **No hashtag spam.** 20+ hashtag stacks at the bottom of a post are off-brand.
-- **No emoji storm.** Sparingly OK (1–2 max per post). Never as substitutes for words.
+- **No emoji storm.** Sparingly OK (1-2 max per post). Never as substitutes for words.
 - **No editorial polish for its own sake.** Pentagram aesthetics, gradient meshes, serif display, "creative agency" tone are explicitly out.
+- **No em-dashes (—).** They read as an AI tell. Use a comma, a colon, or a full stop instead. This applies to every caption, headline, and line of copy. (En-dashes in number ranges like "2404–2409" are fine.)
 
 ### On-brand examples
 

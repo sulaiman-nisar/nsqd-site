@@ -2,25 +2,24 @@
 import BaseLayout from "~/layouts/BaseLayout.astro";
 import FaqBlock from "~/components/FaqBlock.astro";
 import WhatsAppButton from "~/components/WhatsAppButton.astro";
-import { prefills } from "~/lib/whatsapp";
 import { site } from "~/lib/site";
 
 const faqs = [
   {
-    q: "We're a UK agency producing an event in the GCC — can you build locally instead of shipping from the UK?",
-    a: "Yes — that's our core work with UK agencies. You brief and sign off remotely; we fabricate in our Jebel Ali workshop and install on-site. No freight, no ATA carnet, no customs risk on the build itself. You land for the event, not for a week of logistics.",
+    q: "We're a UK or EU agency producing an event in the GCC, can you build locally instead of shipping it over?",
+    a: "Yes, that's our core work with European agencies. You brief and sign off remotely, we fabricate in our Jebel Ali workshop and install on-site. No freight, no ATA carnet, no customs risk on the build itself. You land for the event, not for a week of logistics.",
   },
   {
-    q: "How does a local Dubai build compare on cost to building in the UK and freighting it out?",
-    a: "For most stands and activations, building locally beats UK-build-plus-freight once you factor international shipping, carnet, insurance, and on-site rework. You also dodge the customs-delay risk against a fixed show date. Send the spec and we'll quote the local build so you can compare like-for-like.",
+    q: "How does a local Dubai build compare on cost to building at home and freighting it out?",
+    a: "For most stands and activations, building locally beats a home build plus freight once you factor in international shipping, carnet, insurance, and on-site rework. You also dodge the customs delay risk against a fixed show date. Send the spec and we'll quote the local build so you can compare like for like.",
   },
   {
     q: "Do you handle customs, venue compliance and on-site install in the region?",
-    a: "Yes. We build to the venue's regs — DWTC, Expo City, GITEX, ADNEC — handle technical submissions and delivery slots, and run load-in, build, and de-rig with our own crew. Because the build is fabricated in-region, there's no inbound customs on it to manage.",
+    a: "Yes. We build to the venue's regs, whether that's DWTC, Expo City, GITEX or ADNEC, handle technical submissions and delivery slots, and run load-in, build and de-rig with our own crew. Because the build is fabricated in-region, there's no inbound customs on it to manage.",
   },
   {
     q: "Who's our point of contact, and how do we manage the project remotely across the time-zone gap?",
-    a: "One project lead, start to finish. UK to UAE is a +3 or +4 hour gap, so there's a working overlap every day. You get progress photos and video at each stage, and we schedule sign-off calls in your morning, our afternoon.",
+    a: "One project lead, start to finish. Europe to the UAE is a one to four hour gap depending on the country, so there's a working overlap every day. You get progress photos and video at each stage, and we schedule sign-off calls in your morning, our afternoon.",
   },
   {
     q: "Can we sign off the build remotely before it goes on site?",
@@ -28,39 +27,39 @@ const faqs = [
   },
   {
     q: "Do you make everything in-house, or subcontract?",
-    a: "In-house. CO2 and fiber laser, UV flatbed and large-format print, DTF, 3D printing, CAD/CAM, paint, and assembly all run under one roof in Jebel Ali. One team owns the build, so timeline and quality don't get lost across a chain of subcontractors.",
+    a: "In-house. CO2 and fiber laser, UV flatbed and large-format print, DTF, 3D printing, CAD/CAM, paint and assembly all run under one roof in Jebel Ali. One team owns the build, so timeline and quality don't get lost across a chain of subcontractors.",
   },
   {
     q: "Can you store and reuse our build for the next show in the region?",
-    a: "Yes. We can store stand components and props in-region between shows and adapt them for the next Expo, GITEX, or LEAP cycle — so you're not re-fabricating or re-shipping from the UK each time. Reuse economics work in your favour when the build stays here.",
+    a: "Yes. We can store stand components and props in-region between shows and adapt them for the next Expo, GITEX or LEAP cycle, so you're not re-fabricating or re-shipping each time. Reuse economics work in your favour when the build stays here.",
   },
 ];
 ---
 
 <BaseLayout
-  title="For UK agencies producing in the GCC | NSQD"
-  description="UK agency or brand producing an event in Dubai or the GCC? NSQD is your local fabrication and build partner — design sign-off remote, build in Jebel Ali, install on-site. Skip the freight and the carnet."
+  title="For UK and EU agencies producing in the GCC | NSQD"
+  description="UK or EU agency producing an event in Dubai or the GCC? NSQD is your local fabrication and build partner. Design sign-off remote, build in Jebel Ali, install on-site. Skip the freight and the carnet."
   pathname="/uk"
 >
   <section class="section border-b border-edge">
     <div class="wrap">
-      <p class="eyebrow">For UK agencies + brands</p>
+      <p class="eyebrow">For UK and EU agencies + brands</p>
       <h1 class="mt-4 font-sans font-extrabold tracking-tightest text-paper leading-[0.95] text-[clamp(2.5rem,6vw,5rem)] max-w-4xl">
         Producing in the Gulf?
         <br /><span class="hl">Build it here, not in a freight container.</span>
       </h1>
       <p class="mt-7 max-w-2xl text-paper/85 text-lg leading-relaxed">
-        UK agencies and brands producing at Expo City, GITEX, Art Dubai, ADNEC,
-        F1 or LEAP don't need to fabricate in Britain and ship it out. We're your
-        local build partner in Dubai — you brief and sign off remotely, we
-        fabricate in our Jebel Ali workshop and install on-site. No freight, no
-        carnet, no customs risk against a fixed show date.
+        UK and European agencies and brands producing at Expo City, GITEX, Art
+        Dubai, ADNEC, F1 or LEAP don't need to fabricate at home and ship it out.
+        We're your local build partner in Dubai. You brief and sign off remotely,
+        we fabricate in our Jebel Ali workshop and install on-site. No freight,
+        no carnet, no customs risk against a fixed show date.
       </p>
 
       <div class="mt-9 flex flex-wrap gap-3 items-center">
         <WhatsAppButton
           target="projects"
-          message="Hi Sulaiman — we're a UK agency producing an event in the GCC and want to talk about a local build."
+          message="Hi Sulaiman, we're an agency producing an event in the GCC and want to talk about a local build."
           label="Talk to us about a GCC build"
         />
         <a href="/#work" class="btn-ghost">
@@ -76,7 +75,7 @@ const faqs = [
         </div>
         <div class="bg-ink p-5">
           <div class="font-spec text-mute text-xs uppercase tracking-widest">Time gap</div>
-          <div class="mt-1 text-paper font-bold">+3–4h, daily overlap</div>
+          <div class="mt-1 text-paper font-bold">Daily working overlap</div>
         </div>
         <div class="bg-ink p-5">
           <div class="font-spec text-mute text-xs uppercase tracking-widest">In-house</div>
@@ -87,8 +86,8 @@ const faqs = [
   </section>
 
   <FaqBlock
-    eyebrow="UK agency questions"
-    heading="Producing in the GCC — what UK agencies ask."
+    eyebrow="UK and EU agency questions"
+    heading="Producing in the GCC: what agencies ask."
     faqs={faqs}
     schemaId={`${site.url}/uk/#faq`}
   />
@@ -101,13 +100,13 @@ const faqs = [
       </h2>
       <p class="mt-3 text-paper/85">
         Spec, deadline, venue. We'll come back with a local build quote you can
-        compare against UK-build-plus-freight — usually with scope and timing in
-        the first reply.
+        compare against a home build plus freight, usually with scope and timing
+        in the first reply.
       </p>
       <div class="mt-7">
         <WhatsAppButton
           target="projects"
-          message="Hi Sulaiman — we're a UK agency producing an event in the GCC and want to talk about a local build."
+          message="Hi Sulaiman, we're an agency producing an event in the GCC and want to talk about a local build."
           label="Start on WhatsApp"
         />
       </div>

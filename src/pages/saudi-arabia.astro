@@ -1,0 +1,123 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import FaqBlock from "~/components/FaqBlock.astro";
+import WhatsAppButton from "~/components/WhatsAppButton.astro";
+import { site } from "~/lib/site";
+
+const ksaMessage =
+  "Hi Sulaiman, we have an activation or show in Saudi Arabia and want to talk about a build delivered from Dubai.";
+
+const faqs = [
+  {
+    q: "Can you build in Dubai and deliver and install it in time for our event in Riyadh or Jeddah?",
+    a: "Yes, that's the model. We fabricate in our Jebel Ali workshop and move the build across the border by land freight to Riyadh, Jeddah, or wherever the show is. We plan the build and the crossing backward from your event date, with customs clearance handled, not left to chance.",
+  },
+  {
+    q: "Who handles customs clearance at the border, you or us?",
+    a: "We do. Clearance through the Saudi Fasah system, the Arabic commercial invoice certified by the chamber, and the supporting documents are part of the service. The build arrives at the venue ready to install, not stuck at Al Batha while your event opens without it.",
+  },
+  {
+    q: "Will we pay import duty on a reusable stand or activation?",
+    a: "Usually not. Saudi Arabia joined the ATA Carnet system in 2024, which lets exhibition builds enter duty-free as a temporary import for up to six months, then re-export. We build the Carnet into the plan for reusable structures. Consumables and give-aways that stay in the Kingdom are handled as a normal import.",
+  },
+  {
+    q: "How does pricing work, SAR or AED, and what about the 15% Saudi VAT?",
+    a: "We quote and invoice in Saudi riyals; riyal and dirham are both dollar-pegged, so the rate stays stable between quote and delivery. Saudi VAT is 15%, against the UAE's 5%. For services from a non-resident supplier, a VAT-registered Saudi buyer usually accounts for VAT under reverse charge, so we don't add it. Confirm the specifics with your tax advisor.",
+  },
+  {
+    q: "Do you have a Saudi entity, or do you work through a local partner?",
+    a: "We deliver private brand and agency work cross-border from Dubai, building here and installing in-Kingdom with our crew alongside a vetted local team. For government or Vision 2030 public tenders, where local content is scored, we structure the project with a local contractor of record. Tell us which kind of work it is and we'll scope it accordingly.",
+  },
+  {
+    q: "Will lighting, LEDs or AV get held at customs for conformity?",
+    a: "Electrical and electronic parts (lighting, LED, screens, AV) are the items Saudi customs checks for conformity, so we flag and plan those early. Temporary exhibition goods entering on a Carnet for re-export travel a different lane to retail products. We confirm the requirement case by case with a Saudi customs broker before anything ships.",
+  },
+  {
+    q: "Do you make everything in-house, and will your team be on-site in Saudi?",
+    a: "In-house. Laser, print, DTF, 3D, CAD/CAM, paint and assembly all run under one roof in Jebel Ali, so one team owns the build. For install, our crew travels to site in Riyadh or Jeddah and works with a local team for labour and logistics on the ground.",
+  },
+  {
+    q: "How far ahead should we book for a Saudi show?",
+    a: "Earlier than a local job, because the build and the border crossing both need lead time. Fabrication runs roughly three to six weeks depending on scope, plus freight and clearance. Engaging two to four months before a major Riyadh or Jeddah show is comfortable. Tight timelines are possible, so talk to us early.",
+  },
+];
+---
+
+<BaseLayout
+  title="Built in Dubai, delivered across Saudi Arabia | NSQD"
+  description="Producing a brand activation, stand or show in Saudi Arabia? NSQD fabricates in its Dubai workshop and delivers and installs across the Kingdom, Riyadh to Jeddah. ATA Carnet temporary import, customs handled, crew on-site. SAR pricing."
+  pathname="/saudi-arabia"
+>
+  <section class="section border-b border-edge">
+    <div class="wrap">
+      <p class="eyebrow">For Saudi Arabia + the wider GCC</p>
+      <h1 class="mt-4 font-sans font-extrabold tracking-tightest text-paper leading-[0.95] text-[clamp(2.5rem,6vw,5rem)] max-w-4xl">
+        Building for Riyadh, Jeddah, or a Vision 2030 show?
+        <br /><span class="hl">Built in Dubai. Delivered across the Kingdom.</span>
+      </h1>
+      <p class="mt-7 max-w-2xl text-paper/85 text-lg leading-relaxed">
+        Saudi's event calendar is moving fast: LEAP, Riyadh Season, Black Hat
+        MEA, and the run of Vision 2030 and Expo 2030 work behind them. We
+        fabricate in our Jebel Ali workshop and deliver and install across Saudi
+        Arabia. ATA Carnet keeps reusable builds duty-free on temporary import,
+        customs is handled through to the venue floor, and our crew is on-site
+        in Riyadh or Jeddah.
+      </p>
+
+      <div class="mt-9 flex flex-wrap gap-3 items-center">
+        <WhatsAppButton
+          target="projects"
+          message={ksaMessage}
+          label="Talk to us about a Saudi build"
+        />
+        <a href="/#work" class="btn-ghost">
+          See the work
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="mt-12 grid sm:grid-cols-3 gap-px bg-edge border border-edge max-w-3xl">
+        <div class="bg-ink p-5">
+          <div class="font-spec text-mute text-xs uppercase tracking-widest">Built in</div>
+          <div class="mt-1 text-paper font-bold">Jebel Ali, Dubai</div>
+        </div>
+        <div class="bg-ink p-5">
+          <div class="font-spec text-mute text-xs uppercase tracking-widest">Delivered</div>
+          <div class="mt-1 text-paper font-bold">Riyadh · Jeddah · Kingdom-wide</div>
+        </div>
+        <div class="bg-ink p-5">
+          <div class="font-spec text-mute text-xs uppercase tracking-widest">Temporary import</div>
+          <div class="mt-1 text-paper font-bold">ATA Carnet, duty-free</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FaqBlock
+    eyebrow="Saudi Arabia questions"
+    heading="Building for the Kingdom: what Saudi buyers ask."
+    faqs={faqs}
+    schemaId={`${site.url}/saudi-arabia/#faq`}
+  />
+
+  <section class="section bg-ink border-t border-edge">
+    <div class="wrap max-w-3xl">
+      <p class="eyebrow">Next step</p>
+      <h2 class="mt-3 text-h2 font-extrabold tracking-tightest">
+        Tell us the show, the venue, and the date.
+      </h2>
+      <p class="mt-3 text-paper/85">
+        Riyadh, Jeddah, or anywhere in the Kingdom. Send the brief or the stand
+        drawings and we'll come back with a delivered-and-installed quote, freight
+        and clearance included, usually with scope and timing in the first reply.
+      </p>
+      <div class="mt-7">
+        <WhatsAppButton
+          target="projects"
+          message={ksaMessage}
+          label="Start on WhatsApp"
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

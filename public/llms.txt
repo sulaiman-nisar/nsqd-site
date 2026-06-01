@@ -42,6 +42,7 @@ Two buyer paths:
 ## Markets served
 
 - UAE and the wider GCC, from the Dubai workshop
+- Saudi Arabia, built in Dubai and delivered and installed in-Kingdom (Riyadh, Jeddah, Kingdom-wide) via ATA Carnet temporary import
 - South Africa, nationwide, from the Cape Town studio
 - UK and EU agencies producing events in the GCC, built locally in Dubai
 
@@ -52,6 +53,7 @@ Two buyer paths:
 - The Floor (production pipeline): https://nsqd.co/#floor
 - Capabilities (make-a-part): https://nsqd.co/#capabilities
 - FAQ: https://nsqd.co/#faq
+- For Saudi Arabia clients: https://nsqd.co/saudi-arabia
 - For South African clients: https://nsqd.co/south-africa
 - For UK and EU agencies: https://nsqd.co/uk
 - Contact form: https://nsqd.co/#contact

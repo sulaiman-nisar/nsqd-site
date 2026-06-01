@@ -1,0 +1,114 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import FaqBlock from "~/components/FaqBlock.astro";
+import WhatsAppButton from "~/components/WhatsAppButton.astro";
+import { site } from "~/lib/site";
+
+const faqs = [
+  {
+    q: "You're Cape Town-based — can you service my activation or launch in Johannesburg?",
+    a: "Yes. We run Gauteng activations and launches from the Cape Town studio regularly — most SA brand and agency budget sits in Joburg, and we plan for it. We send a build-and-install crew to site, or fabricate in Cape Town and install on the ground in Johannesburg.",
+  },
+  {
+    q: "Do you deliver and install nationwide, across all provinces?",
+    a: "Yes. We deliver and install across South Africa — Cape Town, Johannesburg, Durban, Pretoria, Gqeberha and the rest. Activations, stands, signage and custom builds go in with our own crew or a vetted local install team, scaled to the job and the province.",
+  },
+  {
+    q: "How does load-shedding affect your production and lead times?",
+    a: "Critical equipment runs on battery backup, so jobs already on the machines aren't ruined mid-cut and design work continues through a bout. For tight deadlines we can also shift production to our Dubai workshop. We build lead times with load-shedding factored in, not as a surprise.",
+  },
+  {
+    q: "Is pricing in ZAR, and how do imported-material and forex moves affect my quote?",
+    a: "Yes, we quote in rand. Some substrates — certain acrylics, films, specialty stock — are imported and priced against forex, so quotes carry a validity window. Lock in early and the price holds; we'll flag any material where the rand exposure matters before you commit.",
+  },
+  {
+    q: "What's your B-BBEE status?",
+    a: "NSQD's South African entity is B-BBEE certified, and we'll share the current certificate and level on request. That matters for corporate, FMCG, retail, and government procurement, where a supplier's B-BBEE level feeds directly into your own scorecard and preferential-procurement points.",
+  },
+  {
+    q: "Can I get just parts fabricated, or only turnkey?",
+    a: "Both. Send a parts list and files and we'll cut, print, or 3D-print to spec — laser, UV, DTF, CNC, resin. Or brief us and we go end-to-end: design, build, finish, install. Designers and agencies use us both ways, on the same floor.",
+  },
+  {
+    q: "What's your design-and-quote turnaround and production lead time?",
+    a: "Quotes typically come back inside a few working days, faster for straightforward jobs. Production depends on scope — signage and small runs in days, full activations in two to six weeks. Tell us your event or launch date and we build backward from it.",
+  },
+];
+---
+
+<BaseLayout
+  title="Brand activations + fabrication in South Africa | NSQD"
+  description="NSQD's Cape Town studio designs, fabricates and installs brand activations, stands, props, signage and custom builds — in Cape Town, Johannesburg and across all SA provinces. B-BBEE certified. Turnkey or by the part."
+  pathname="/south-africa"
+>
+  <section class="section border-b border-edge">
+    <div class="wrap">
+      <p class="eyebrow">For South African brands + agencies</p>
+      <h1 class="mt-4 font-sans font-extrabold tracking-tightest text-paper leading-[0.95] text-[clamp(2.5rem,6vw,5rem)] max-w-4xl">
+        Cape Town studio.
+        <br /><span class="hl">National reach.</span>
+      </h1>
+      <p class="mt-7 max-w-2xl text-paper/85 text-lg leading-relaxed">
+        From our Wynberg studio we design, fabricate, finish and install brand
+        activations, exhibition stands, props, signage, POS and custom builds —
+        in Cape Town, up to Joburg, and across every province. Bring us a brief
+        and we go end-to-end, or send a parts list and we make it by the part.
+      </p>
+
+      <div class="mt-9 flex flex-wrap gap-3 items-center">
+        <WhatsAppButton
+          target="projects"
+          message="Hi Sulaiman — I'm in South Africa and want to talk about an activation / fabrication project."
+          label="Talk to us about a project"
+        />
+        <a href="/#work" class="btn-ghost">
+          See the work
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="mt-12 grid sm:grid-cols-3 gap-px bg-edge border border-edge max-w-3xl">
+        <div class="bg-ink p-5">
+          <div class="font-spec text-mute text-xs uppercase tracking-widest">Studio</div>
+          <div class="mt-1 text-paper font-bold">Wynberg, Cape Town</div>
+        </div>
+        <div class="bg-ink p-5">
+          <div class="font-spec text-mute text-xs uppercase tracking-widest">Reach</div>
+          <div class="mt-1 text-paper font-bold">Nationwide install</div>
+        </div>
+        <div class="bg-ink p-5">
+          <div class="font-spec text-mute text-xs uppercase tracking-widest">Procurement</div>
+          <div class="mt-1 text-paper font-bold">B-BBEE certified</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FaqBlock
+    eyebrow="South Africa questions"
+    heading="Working with us in South Africa."
+    faqs={faqs}
+    schemaId={`${site.url}/south-africa/#faq`}
+  />
+
+  <section class="section bg-ink border-t border-edge">
+    <div class="wrap max-w-3xl">
+      <p class="eyebrow">Next step</p>
+      <h2 class="mt-3 text-h2 font-extrabold tracking-tightest">
+        Cape Town or Joburg — tell us what you're building.
+      </h2>
+      <p class="mt-3 text-paper/85">
+        Brief, parts list, or files. Dimensions, materials, quantity, deadline.
+        The more detail, the faster the quote — usually with scope and timing in
+        the first reply.
+      </p>
+      <div class="mt-7">
+        <WhatsAppButton
+          target="projects"
+          message="Hi Sulaiman — I'm in South Africa and want to talk about an activation / fabrication project."
+          label="Start on WhatsApp"
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

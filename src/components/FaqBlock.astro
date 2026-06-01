@@ -1,0 +1,52 @@
+---
+// Reusable FAQ block: renders a question/answer list AND emits matching
+// FAQPage JSON-LD from the same array, so HTML question text === schema
+// question text (a hard requirement for AI/search citation). Used on the
+// market landing pages (/uk, /south-africa). Each instance needs a unique
+// schemaId because FAQPage @ids must be unique per URL.
+
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  faqs: FaqItem[];
+  schemaId: string;
+}
+
+const { eyebrow = "Questions", heading, faqs, schemaId } = Astro.props;
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": schemaId,
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+
+<section class="section bg-ink" aria-label={heading}>
+  <div class="wrap">
+    <header class="mb-10 md:mb-12">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 class="mt-3 text-h1 font-extrabold tracking-tightest max-w-3xl">{heading}</h2>
+    </header>
+
+    <dl class="grid gap-px bg-edge border border-edge">
+      {faqs.map((f) => (
+        <div class="bg-ink p-6 md:p-8">
+          <dt class="text-h3 font-bold tracking-tightest text-paper">{f.q}</dt>
+          <dd class="mt-3 text-paper/85 leading-relaxed max-w-3xl">{f.a}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

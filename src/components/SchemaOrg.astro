@@ -27,6 +27,12 @@ const organization = {
   email: site.emails.projects,
   knowsAbout: site.capabilities,
   areaServed: ["AE", "ZA", "United Arab Emirates", "South Africa"],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: site.rating.value,
+    reviewCount: site.rating.count,
+    bestRating: site.rating.best,
+  },
   contactPoint: [
     {
       "@type": "ContactPoint",

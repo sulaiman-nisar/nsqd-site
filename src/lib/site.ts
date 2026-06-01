@@ -45,4 +45,15 @@ export const site = {
   ],
 
   plausibleDomain: import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN ?? "nsqd.co",
+
+  // Mirrors the Google Business Profile rating for the Dubai listing.
+  // Update value/count when the GBP rating changes. `url` should point at the
+  // public Google reviews for the listing — swap in the exact GBP review link
+  // when available (search URL is a safe default that resolves to the listing).
+  rating: {
+    value: "4.7",
+    count: "6",
+    best: "5",
+    url: "https://www.google.com/search?q=Necessity+Squared+NSQD+Dubai+reviews",
+  },
 } as const;

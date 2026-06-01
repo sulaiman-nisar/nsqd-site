@@ -1,0 +1,101 @@
+---
+import { site } from "~/lib/site";
+
+// Curated from research into how brand / event / agency / designer buyers
+// actually search and ask — and how they phrase questions to AI assistants.
+// Kept to a tight, high-intent set (answer-first, ~40-60 words, specific:
+// named materials, cities, formats, numbers). The SAME array drives both the
+// rendered HTML and the FAQPage JSON-LD below, so the question text matches
+// exactly — a hard requirement for AI/search citation.
+
+const faqs = [
+  {
+    q: "What can NSQD make?",
+    a: "Brand activations, scale models, event and theatrical props, retail kits, trophies, signage, and custom production runs. We design, fabricate, finish, and install in-house — from a single bespoke piece to a full production batch. Workshops in Jebel Ali, Dubai and Wynberg, Cape Town serve the UAE, GCC, and South Africa.",
+  },
+  {
+    q: "Can I order just the parts, or do you run the whole project?",
+    a: "Both. Bring a brief and we go end-to-end — design, build, finish, install. Or send a parts list and CAD files and we manufacture to spec. Designers and architects use us by the part; brands and agencies use us turnkey. You choose the path.",
+  },
+  {
+    q: "What file formats do you accept?",
+    a: "For laser cutting and CNC: vector files — AI, DXF, SVG, EPS, or PDF with outlined paths. For 3D printing: STL, STEP, OBJ, or 3MF. For print: high-resolution PDF or vector artwork. No finished file? Send a sketch or dimensions and our CAD team builds it.",
+  },
+  {
+    q: "What's your lead time, and can you hit a fixed event date?",
+    a: "It depends on scope — small jobs turn around in days, most activations run two to six weeks. We build to the install date, not a vague estimate. Event work is planned backward from your deadline, so tell us the date up front and we commit to it.",
+  },
+  {
+    q: "Is there a minimum order?",
+    a: "No minimum. We'll make one bespoke piece or a production run of hundreds on the same floor. Single prototypes, limited VIP runs, and full batches are all welcome — the mixed-technology workshop is built for small-batch and one-off work, not just volume.",
+  },
+  {
+    q: "What materials can you work with?",
+    a: "CO2 laser: acrylic, MDF, wood, paper, fabric. Fiber laser: stainless steel, aluminium, brass. UV flatbed prints direct to rigid substrate; ECO solvent handles vinyl and banner; DTF covers textiles. 3D printing runs FDM and SLA resin. If your material isn't listed, ask — we work with most.",
+  },
+  {
+    q: "Do you deliver and install on-site?",
+    a: "Yes. Assembly and on-site installation are part of the service, with our own crew in the UAE and South Africa. We handle load-in, build, levelling, and teardown for activations and events — the finished piece arrives ready, not flat-packed for you to assemble.",
+  },
+  {
+    q: "Can you work across the GCC and ship internationally?",
+    a: "Yes. From the Dubai workshop we deliver and install across the UAE and the wider GCC, and we build pieces for shipping to other markets. The Cape Town studio covers South Africa. Cross-border work — built in one city, installed in another — is routine for us.",
+  },
+  {
+    q: "How do I get a quote?",
+    a: "Message Pranav on WhatsApp or use the contact form with your brief, parts list, or files. The more detail — dimensions, materials, quantity, deadline — the faster and more accurate the quote. For straightforward jobs you'll usually have scope and timing in the first reply.",
+  },
+  {
+    q: "Will you keep my project confidential?",
+    a: "Yes. We work on unreleased products and embargoed brand activations regularly, and we'll sign an NDA on request. Your files, designs, and briefs stay confidential. We never publish a client's project on our site or social channels without their explicit permission.",
+  },
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${site.url}/#faq`,
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: f.a,
+    },
+  })),
+};
+---
+
+<section id="faq" class="section bg-ink" aria-labelledby="faq-heading">
+  <div class="wrap">
+    <header class="mb-10 md:mb-12 flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class="eyebrow">Questions</p>
+        <h2 id="faq-heading" class="mt-3 text-h1 font-extrabold tracking-tightest max-w-3xl">
+          The stuff <span class="hl">people ask first.</span>
+        </h2>
+      </div>
+      <a
+        href={site.rating.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 font-spec text-sm text-mute hover:text-paper transition-colors"
+        aria-label={`Rated ${site.rating.value} out of 5 on Google, ${site.rating.count} reviews`}
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFB600" aria-hidden="true"><path d="M12 2l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.8 6.1 20.8l1.2-6.6L2.5 9l6.6-.9z"/></svg>
+        <span><span class="text-paper font-semibold">{site.rating.value}</span> · {site.rating.count} Google reviews</span>
+      </a>
+    </header>
+
+    <dl class="grid gap-px bg-edge border border-edge">
+      {faqs.map((f) => (
+        <div class="bg-ink p-6 md:p-8">
+          <dt class="text-h3 font-bold tracking-tightest text-paper">{f.q}</dt>
+          <dd class="mt-3 text-paper/85 leading-relaxed max-w-3xl">{f.a}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />

@@ -24,7 +24,7 @@ interface Props {
 
 const { slug, data } = Astro.props;
 
-const pageUrl = `${site.url}/work/${slug}`;
+const pageUrl = `${site.url}/work/${slug}/`;
 const imageUrl = data.hero.startsWith("http") ? data.hero : `${site.url}${data.hero}`;
 
 const keywords = [

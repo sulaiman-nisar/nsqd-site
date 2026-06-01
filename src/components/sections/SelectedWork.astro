@@ -29,7 +29,7 @@ const work = entries
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
       {work.map((w, i) => (
         <a
-          href={`/work/${w.slug}`}
+          href={`/work/${w.slug}/`}
           class:list={[
             "group relative block border border-edge bg-ink/40 overflow-hidden transition-all duration-300 ease-punch hover:border-paper",
             i === 0 ? "sm:col-span-2 lg:col-span-2 lg:row-span-2" : "",

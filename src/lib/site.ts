@@ -56,4 +56,29 @@ export const site = {
     best: "5",
     url: "https://www.google.com/search?q=Necessity+Squared+NSQD+Dubai+reviews",
   },
+
+  // Verbatim client testimonials, carried over from the previous site (cleared
+  // to publish). Marked up as schema.org Review for AEO/LLM citation, but NOT
+  // folded into `rating` above — Google does not surface stars for first-party
+  // self-published reviews, and counting them would breach review guidelines.
+  // `org` (optional) drives schema.org author.worksFor. `avatar` (optional) is a
+  // path under /public; when absent the section renders an initials monogram.
+  testimonials: [
+    {
+      quote:
+        "I have used NSQD's printing and signage services for the past two years, and I couldn't be more satisfied with their services. As a creative freelancer, my needs are always varied, from last minute custom prop items to large scale projects with tight deadlines. Whether brainstorming innovative solutions or finding cost-effective materials, Sulaiman's expertise and willingness to collaborate make every project a success. They are not just vendors; they are partners in my creative process. Moreover, their versatility is impressive. From printing to prop making and working with environmentally friendly materials, the support from NSQD has been phenomenal. Their competitive pricing, outstanding quality, and passion for what they do make them a standout choice.",
+      name: "Lindi Badenhorst",
+      role: "Creative freelancer, art direction and props",
+      org: "",
+      avatar: "",
+    },
+    {
+      quote:
+        "Working with Sulaiman and his team is always a pleasure. He is incredibly responsive, always willing to help. His dedication and professionalism makes the projects smooth and successful. I highly recommend him for his great support and service.",
+      name: "Farid Mimouni",
+      role: "Founder, FM Consulting",
+      org: "FM Consulting",
+      avatar: "",
+    },
+  ],
 } as const;

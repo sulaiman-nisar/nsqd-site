@@ -1,9 +1,10 @@
 ---
 import { getCollection } from "astro:content";
+import { Image, getImage } from "astro:assets";
 import BaseLayout from "~/layouts/BaseLayout.astro";
 import WhatsAppButton from "~/components/WhatsAppButton.astro";
 import { prefills } from "~/lib/whatsapp";
-import { publicFileExists } from "~/lib/fileExists";
+import { resolveImage } from "~/lib/images";
 
 import Stat from "~/components/mdx/Stat.astro";
 import Pull from "~/components/mdx/Pull.astro";
@@ -33,9 +34,20 @@ if (d.quantity) specRows.push({ label: "Quantity", value: d.quantity });
 if (d.leadTime) specRows.push({ label: "Lead time", value: d.leadTime });
 if (d.deliveredAt) specRows.push({ label: "Delivered", value: d.deliveredAt });
 
-// Filter gallery to images that actually exist on disk — no empty boxes for
-// shots that haven't been uploaded yet.
-const galleryFiltered = (d.gallery ?? []).filter(publicFileExists);
+// Resolve gallery paths through the image pipeline — paths that don't resolve
+// simply don't render, no empty boxes for shots that haven't been uploaded yet.
+const gallery = (d.gallery ?? [])
+  .map((src) => resolveImage(src))
+  .filter((img): img is NonNullable<typeof img> => Boolean(img));
+
+const heroImage = resolveImage(d.hero);
+
+// OG + schema want a plain, stable URL. Social scrapers are unreliable with
+// WebP, so emit a 1200px JPEG variant of the hero for them.
+const ogJpeg = heroImage
+  ? await getImage({ src: heroImage, format: "jpeg", width: 1200, quality: 80 })
+  : null;
+const ogUrl = ogJpeg?.src;
 
 const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
 ---
@@ -44,9 +56,9 @@ const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
   title={`${d.client}: ${d.title}, bespoke fabrication by NSQD`}
   description={`${d.outcome} ${d.type} by NSQD, Dubai and Cape Town.`}
   pathname={`/work/${entry.slug}/`}
-  ogImage={d.hero}
+  ogImage={ogUrl}
 >
-  <CaseStudySchema slug={entry.slug} data={d} />
+  <CaseStudySchema slug={entry.slug} data={ogUrl ? { ...d, hero: ogUrl } : d} />
 
   <article class="wrap px-gutter pt-12">
     <a href="/#work" class="font-spec text-mute text-sm hover:text-paper transition-colors">← Back to work</a>
@@ -62,12 +74,20 @@ const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
     </header>
 
     <figure class="mt-12 relative aspect-[16/9] border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]">
-      <img
-        src={d.hero}
-        alt={`${d.client}, ${d.title}`}
-        class="absolute inset-0 w-full h-full object-cover"
-        onerror="this.style.display='none'"
-      />
+      {heroImage && (
+        <Image
+          src={heroImage}
+          alt={`${d.client}, ${d.title}`}
+          widths={[640, 1000, 1400, 2000]}
+          sizes="(min-width: 1280px) 1216px, 100vw"
+          format="webp"
+          quality={80}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+      )}
     </figure>
 
     <div class="mt-16 grid lg:grid-cols-12 gap-10 lg:gap-14">
@@ -102,13 +122,23 @@ const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
       )}
     </div>
 
-    {galleryFiltered.length > 0 && (
+    {gallery.length > 0 && (
       <div class="mt-20">
         <p class="eyebrow mb-6">Gallery</p>
         <div class="grid sm:grid-cols-2 gap-4 md:gap-5">
-          {galleryFiltered.map((src) => (
+          {gallery.map((img) => (
             <figure class="relative aspect-[4/3] border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]">
-              <img src={src} alt={`${d.client}, ${d.title} (gallery)`} loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+              <Image
+                src={img}
+                alt={`${d.client}, ${d.title} (gallery)`}
+                widths={[400, 640, 900, 1200]}
+                sizes="(min-width: 1024px) 600px, (min-width: 640px) 50vw, 100vw"
+                format="webp"
+                quality={78}
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover"
+              />
             </figure>
           ))}
         </div>

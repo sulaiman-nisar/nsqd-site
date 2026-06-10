@@ -1,5 +1,6 @@
 ---
-import { publicFileExists } from "~/lib/fileExists";
+import { Image } from "astro:assets";
+import { resolveImage } from "~/lib/images";
 
 interface Props {
   src: string;
@@ -21,18 +22,25 @@ const aspectClass = {
   "9/16": "aspect-[9/16]",
 }[aspect];
 
-const exists = publicFileExists(src);
+const image = resolveImage(src);
+
+// Case body column is 8/12 of the 78rem content width — ~832px max on desktop.
+const SIZES = "(min-width: 1024px) 832px, 100vw";
 ---
 
-{exists && (
+{image && (
   <figure class="my-10">
     <div class:list={[
       "relative w-full border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]",
       aspectClass,
     ]}>
-      <img
-        src={src}
+      <Image
+        src={image}
         alt={alt}
+        widths={[480, 800, 1200]}
+        sizes={SIZES}
+        format="webp"
+        quality={78}
         loading="lazy"
         decoding="async"
         class="absolute inset-0 w-full h-full object-cover"

@@ -178,6 +178,28 @@
     border-color: var(--paper);
     background: rgba(255, 255, 255, 0.04);
   }
+  .btn-ghost:active {
+    transform: scale(0.98);
+  }
+
+  /* Scroll reveal. JS adds .rv + observes; .rv-in plays the entrance.
+     Classes are only applied when prefers-reduced-motion is off and JS is
+     running, so there is no no-JS or reduced-motion FOUC path — but the
+     media guard here is belt-and-braces. --rv-d staggers grid tiles. */
+  @media (prefers-reduced-motion: no-preference) {
+    .rv {
+      opacity: 0;
+      transform: translateY(14px);
+      transition:
+        opacity 0.55s theme("transitionTimingFunction.punch"),
+        transform 0.55s theme("transitionTimingFunction.punch");
+      transition-delay: var(--rv-d, 0ms);
+    }
+    .rv.rv-in {
+      opacity: 1;
+      transform: none;
+    }
+  }
 
   .tag {
     display: inline-flex;

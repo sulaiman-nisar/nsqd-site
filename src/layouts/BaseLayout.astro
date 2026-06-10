@@ -1,5 +1,19 @@
 ---
+// Self-hosted fonts (woff2, latin subset, font-display: swap). Only the
+// weights the design actually uses — previously 11 weights came from a
+// render-blocking Google Fonts request chain.
+import "@fontsource/poppins/latin-400.css";
+import "@fontsource/poppins/latin-500.css";
+import "@fontsource/poppins/latin-600.css";
+import "@fontsource/poppins/latin-700.css";
+import "@fontsource/poppins/latin-800.css";
+import "@fontsource/ibm-plex-sans/latin-400.css";
+import "@fontsource/ibm-plex-sans/latin-500.css";
+import "@fontsource/ibm-plex-sans/latin-600.css";
+import "@fontsource/ibm-plex-mono/latin-400.css";
+import "@fontsource/ibm-plex-mono/latin-500.css";
 import "~/styles/global.css";
+import { ClientRouter } from "astro:transitions";
 import Nav from "~/components/Nav.astro";
 import Footer from "~/components/Footer.astro";
 import FloatingWhatsApp from "~/components/FloatingWhatsApp.astro";
@@ -41,14 +55,6 @@ const plausibleDomain = site.plausibleDomain;
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Fonts: Poppins + IBM Plex Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
-    />
-
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -65,6 +71,10 @@ const plausibleDomain = site.plausibleDomain;
       data-domain={plausibleDomain}
       src="https://plausible.io/js/script.tagged-events.outbound-links.js"
     ></script>
+
+    <!-- Soft cross-page transitions (crossfade). Scripts below use event
+         delegation + astro:page-load so they survive the DOM swap. -->
+    <ClientRouter />
 
     <!-- JSON-LD structured data: Organization, WebSite, LocalBusiness x2.
          Page-specific schemas (CreativeWork on case studies) are emitted
@@ -98,11 +108,14 @@ const plausibleDomain = site.plausibleDomain;
 
     <!-- Lenis smooth scroll, respects prefers-reduced-motion.
          Duration 0.95s + exponential ease = premium inertia without lag.
-         lerp 0.1 = finer interpolation between scroll positions. -->
+         lerp 0.1 = finer interpolation between scroll positions.
+         All handlers are delegated to document/window so they keep working
+         after a ClientRouter page swap (this module only runs once). -->
     <script>
       import Lenis from "lenis";
 
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
       if (!reduced) {
         const lenis = new Lenis({
           duration: 0.95,
@@ -117,30 +130,83 @@ const plausibleDomain = site.plausibleDomain;
         };
         requestAnimationFrame(raf);
 
+        // The mobile menu overlay locks the page; pause Lenis so wheel/touch
+        // momentum doesn't scroll the document underneath it.
+        window.addEventListener("nsqd:menu-open", () => lenis.stop());
+        window.addEventListener("nsqd:menu-close", () => lenis.start());
+
         // Lenis-driven smooth scroll for same-page anchors. Handles both
         // bare "#anchor" and absolute "/#anchor" — the latter is what the
         // nav uses so links resolve from sub-pages, but we still want
         // smooth scroll when the user clicks them on the homepage.
-        document.querySelectorAll<HTMLAnchorElement>("a[href]").forEach((a) => {
-          a.addEventListener("click", (e) => {
-            const href = a.getAttribute("href");
-            if (!href) return;
-            let url: URL;
-            try {
-              url = new URL(href, location.origin);
-            } catch {
-              return;
-            }
-            const samePath = url.pathname === location.pathname;
-            const hasHash = url.hash && url.hash !== "#";
-            if (!samePath || !hasHash) return;
-            const el = document.querySelector(url.hash);
-            if (!el) return;
-            e.preventDefault();
-            lenis.scrollTo(el as HTMLElement, { offset: -64 });
-          });
+        document.addEventListener("click", (e) => {
+          const a = (e.target as Element | null)?.closest?.("a[href]");
+          if (!a || e.defaultPrevented) return;
+          const href = a.getAttribute("href");
+          if (!href) return;
+          let url: URL;
+          try {
+            url = new URL(href, location.origin);
+          } catch {
+            return;
+          }
+          const samePath = url.pathname === location.pathname;
+          const hasHash = url.hash && url.hash !== "#";
+          if (!samePath || !hasHash) return;
+          const el = document.querySelector(url.hash);
+          if (!el) return;
+          e.preventDefault();
+          lenis.scrollTo(el as HTMLElement, { offset: -64 });
         });
       }
+
+      // Scroll reveals. Section headers fade up; grid tiles stagger in.
+      // Classes are added here (not in markup) so no-JS visitors and
+      // reduced-motion users always get fully visible content. The hero is
+      // deliberately excluded — first paint stays instant. Re-runs on every
+      // ClientRouter navigation via astro:page-load.
+      const TILE_GROUPS = [
+        "#work .grid > a",
+        "#project-types .grid > article",
+        "#capabilities .grid > *",
+        "#clients ul > li",
+        "#testimonials figure",
+        "#faq dl > div",
+      ];
+
+      function initReveals() {
+        if (reduced || !("IntersectionObserver" in window)) return;
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("rv-in");
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+        );
+
+        const headers = document.querySelectorAll("main section:not(#hero) > .wrap > header, main section:not(#hero) > header");
+        headers.forEach((el) => {
+          if (el.classList.contains("rv")) return;
+          el.classList.add("rv");
+          io.observe(el);
+        });
+
+        for (const selector of TILE_GROUPS) {
+          document.querySelectorAll(selector).forEach((el, i) => {
+            if (el.classList.contains("rv")) return;
+            el.classList.add("rv");
+            (el as HTMLElement).style.setProperty("--rv-d", `${Math.min(i * 55, 330)}ms`);
+            io.observe(el);
+          });
+        }
+      }
+
+      // astro:page-load fires on first load and after every view transition.
+      document.addEventListener("astro:page-load", initReveals);
     </script>
   </body>
 </html>

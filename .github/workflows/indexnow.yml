@@ -1,0 +1,61 @@
+name: IndexNow ping
+
+# Notifies IndexNow (Bing, Yandex, Seznam, and other participating engines)
+# whenever main is deployed, so new/changed pages get crawled in minutes
+# instead of waiting to be re-discovered. Cloudflare's own "Crawler Hints"
+# toggle does not reliably fire for this Workers Static Assets setup, so we
+# submit explicitly here.
+#
+# The IndexNow key is public by design: it is also hosted at
+# https://nsqd.co/20b382bc9768b619ee7e67341fde9c12.txt to prove site ownership.
+# No repository secrets are required.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+# If several pushes land quickly, only the latest needs to ping.
+concurrency:
+  group: indexnow
+  cancel-in-progress: true
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for the Cloudflare deploy to go live
+        # The push triggers a Cloudflare build in parallel; give it time to
+        # publish so IndexNow crawlers fetch the new content, not the old.
+        run: sleep 150
+
+      - name: Submit sitemap URLs to IndexNow
+        run: |
+          node --input-type=module -e '
+            const KEY = "20b382bc9768b619ee7e67341fde9c12";
+            const HOST = "nsqd.co";
+            const res = await fetch(`https://${HOST}/sitemap-0.xml`, { cache: "no-store" });
+            const xml = await res.text();
+            const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
+            if (urls.length === 0) {
+              console.log("No URLs found in sitemap; nothing to submit.");
+              process.exit(0);
+            }
+            const body = {
+              host: HOST,
+              key: KEY,
+              keyLocation: `https://${HOST}/${KEY}.txt`,
+              urlList: urls,
+            };
+            const post = await fetch("https://api.indexnow.org/IndexNow", {
+              method: "POST",
+              headers: { "Content-Type": "application/json; charset=utf-8" },
+              body: JSON.stringify(body),
+            });
+            console.log(`IndexNow responded ${post.status} for ${urls.length} URLs.`);
+            // 200 and 202 are both success; anything else is worth surfacing.
+            if (post.status !== 200 && post.status !== 202) {
+              console.log(await post.text());
+              process.exit(1);
+            }
+          '

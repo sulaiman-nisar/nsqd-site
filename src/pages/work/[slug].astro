@@ -75,18 +75,20 @@ const mdxComponents = { Stat, Pull, BuildShot, BuildPair };
 
     <figure class="mt-12 relative aspect-[16/9] border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]">
       {heroImage && (
-        <Image
-          src={heroImage}
-          alt={`${d.client}, ${d.title}`}
-          widths={[640, 1000, 1400, 2000]}
-          sizes="(min-width: 1280px) 1216px, 100vw"
-          format="webp"
-          quality={80}
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-          class="absolute inset-0 w-full h-full object-cover"
-        />
+        <div class="absolute inset-x-0 -top-[8%] h-[116%] will-change-transform" data-parallax="4">
+          <Image
+            src={heroImage}
+            alt={`${d.client}, ${d.title}`}
+            widths={[640, 1000, 1400, 2000]}
+            sizes="(min-width: 1280px) 1216px, 100vw"
+            format="webp"
+            quality={80}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            class="w-full h-full object-cover"
+          />
+        </div>
       )}
     </figure>
 

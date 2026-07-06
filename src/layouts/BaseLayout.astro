@@ -158,6 +158,45 @@ const plausibleDomain = site.plausibleDomain;
           e.preventDefault();
           lenis.scrollTo(el as HTMLElement, { offset: -64 });
         });
+
+        // GSAP ScrollTrigger — scroll-linked parallax depth, synced to Lenis.
+        // Loaded dynamically so it never blocks first paint, and gated behind
+        // the reduced-motion guard above. Elements opt in with [data-parallax]
+        // (value = drift amount in % of their own height). Re-inits on every
+        // ClientRouter navigation.
+        Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(
+          ([{ gsap }, { ScrollTrigger }]) => {
+            gsap.registerPlugin(ScrollTrigger);
+            lenis.on("scroll", ScrollTrigger.update);
+
+            function initParallax() {
+              ScrollTrigger.getAll().forEach((t) => t.kill());
+              document
+                .querySelectorAll<HTMLElement>("[data-parallax]")
+                .forEach((el) => {
+                  const depth = parseFloat(el.dataset.parallax || "6");
+                  gsap.fromTo(
+                    el,
+                    { yPercent: -depth },
+                    {
+                      yPercent: depth,
+                      ease: "none",
+                      scrollTrigger: {
+                        trigger: el.closest("section") || el,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true,
+                      },
+                    },
+                  );
+                });
+              ScrollTrigger.refresh();
+            }
+
+            initParallax();
+            document.addEventListener("astro:page-load", initParallax);
+          },
+        );
       }
 
       // Scroll reveals. Section headers fade up; grid tiles stagger in.

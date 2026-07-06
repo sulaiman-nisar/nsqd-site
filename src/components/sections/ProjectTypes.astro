@@ -48,17 +48,19 @@ const types = [
         <article class="group border border-edge bg-ink/40 overflow-hidden transition-all duration-300 ease-punch hover:border-paper">
           <div class="relative aspect-[4/5] overflow-hidden bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.05),transparent_60%)]">
             {resolveImage(t.image) && (
-              <Image
-                src={resolveImage(t.image)!}
-                alt={t.title}
-                widths={[320, 480, 640]}
-                sizes="(min-width: 1024px) 300px, (min-width: 640px) 50vw, 100vw"
-                format="webp"
-                quality={78}
-                loading="lazy"
-                decoding="async"
-                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-punch group-hover:scale-[1.04]"
-              />
+              <div class="absolute inset-x-0 -top-[8%] h-[116%] will-change-transform" data-parallax="4">
+                <Image
+                  src={resolveImage(t.image)!}
+                  alt={t.title}
+                  widths={[320, 480, 640]}
+                  sizes="(min-width: 1024px) 300px, (min-width: 640px) 50vw, 100vw"
+                  format="webp"
+                  quality={78}
+                  loading="lazy"
+                  decoding="async"
+                  class="w-full h-full object-cover transition-transform duration-700 ease-punch group-hover:scale-[1.04]"
+                />
+              </div>
             )}
             <div class="absolute top-3 left-3 tag bg-ink/70 backdrop-blur-sm">{t.tag}</div>
           </div>

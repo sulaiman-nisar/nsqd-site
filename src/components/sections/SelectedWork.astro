@@ -48,18 +48,20 @@ const sizesFor = (i: number) =>
             i === 0 ? "aspect-[16/11]" : "aspect-[4/3]",
           ]}>
             {w.image && (
-              <Image
-                src={w.image}
-                alt={`${w.client}, ${w.title}`}
-                widths={i === 0 ? [480, 800, 1200, 1600] : [400, 640, 900]}
-                sizes={sizesFor(i)}
-                format="webp"
-                quality={78}
-                loading={i < 2 ? "eager" : "lazy"}
-                fetchpriority={i === 0 ? "high" : "auto"}
-                decoding="async"
-                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-punch group-hover:scale-[1.03]"
-              />
+              <div class="absolute inset-x-0 -top-[8%] h-[116%] will-change-transform" data-parallax="4">
+                <Image
+                  src={w.image}
+                  alt={`${w.client}, ${w.title}`}
+                  widths={i === 0 ? [480, 800, 1200, 1600] : [400, 640, 900]}
+                  sizes={sizesFor(i)}
+                  format="webp"
+                  quality={78}
+                  loading={i < 2 ? "eager" : "lazy"}
+                  fetchpriority={i === 0 ? "high" : "auto"}
+                  decoding="async"
+                  class="w-full h-full object-cover transition-transform duration-700 ease-punch group-hover:scale-[1.03]"
+                />
+              </div>
             )}
             <div class="absolute top-3 left-3 tag bg-ink/70 backdrop-blur-sm">{w.type}</div>
           </div>

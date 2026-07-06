@@ -1,6 +1,7 @@
 ---
 import WhatsAppButton from "~/components/WhatsAppButton.astro";
 import CapabilityDemo from "~/components/CapabilityDemo.astro";
+import BorderGlow from "~/components/BorderGlow.astro";
 import { prefills } from "~/lib/whatsapp";
 
 const caps = [
@@ -34,24 +35,26 @@ const caps = [
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
       {caps.map((c) => (
-        <article class="group relative flex flex-col border border-edge bg-ink/40 p-5 md:p-6 transition-all duration-300 ease-punch hover:border-paper">
-          <div class="aspect-[5/3] rounded-sm border border-edge bg-[radial-gradient(circle_at_30%_30%,rgba(255,218,0,0.05),transparent_60%)] mb-5 overflow-hidden">
-            <CapabilityDemo icon={c.icon} label={c.name} />
-          </div>
+        <BorderGlow class="group h-full transition-transform duration-300 ease-punch hover:-translate-y-0.5">
+          <div class="flex flex-col h-full p-5 md:p-6">
+            <div class="aspect-[5/3] rounded-sm border border-edge bg-[radial-gradient(circle_at_30%_30%,rgba(255,218,0,0.05),transparent_60%)] mb-5 overflow-hidden">
+              <CapabilityDemo icon={c.icon} label={c.name} />
+            </div>
 
-          <h3 class="text-h3 font-bold tracking-tightest">{c.name}</h3>
-          <p class="mt-1 font-spec text-mute text-sm">{c.spec}</p>
+            <h3 class="text-h3 font-bold tracking-tightest">{c.name}</h3>
+            <p class="mt-1 font-spec text-mute text-sm">{c.spec}</p>
 
-          <div class="mt-5 pt-4 border-t border-edge">
-            <WhatsAppButton
-              target="quotes"
-              message={prefills.capabilityQuote(c.name)}
-              label="Quote on WhatsApp"
-              variant="ghost"
-              class="w-full justify-center text-sm py-3"
-            />
+            <div class="mt-5 pt-4 border-t border-edge">
+              <WhatsAppButton
+                target="quotes"
+                message={prefills.capabilityQuote(c.name)}
+                label="Quote on WhatsApp"
+                variant="ghost"
+                class="w-full justify-center text-sm py-3"
+              />
+            </div>
           </div>
-        </article>
+        </BorderGlow>
       ))}
     </div>
   </div>

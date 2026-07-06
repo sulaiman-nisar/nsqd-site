@@ -1,5 +1,6 @@
 ---
 import { site } from "~/lib/site";
+import BorderGlow from "~/components/BorderGlow.astro";
 ---
 
 <section id="studio" class="section" aria-labelledby="studio-heading">
@@ -22,12 +23,14 @@ import { site } from "~/lib/site";
 
     <div class="grid sm:grid-cols-2 gap-4">
       {site.offices.map((office) => (
-        <article class="border border-edge bg-ink/40 p-6">
-          <div class="eyebrow">{office.country}</div>
-          <h3 class="mt-3 text-h3 font-bold tracking-tightest">{office.city}</h3>
-          <p class="mt-1 font-spec text-mute text-sm">{office.area}</p>
-          <p class="mt-4 text-paper/85 text-sm leading-relaxed">{office.address}</p>
-        </article>
+        <BorderGlow class="group h-full transition-transform duration-300 ease-punch hover:-translate-y-0.5">
+          <div class="p-6">
+            <div class="eyebrow">{office.country}</div>
+            <h3 class="mt-3 text-h3 font-bold tracking-tightest">{office.city}</h3>
+            <p class="mt-1 font-spec text-mute text-sm">{office.area}</p>
+            <p class="mt-4 text-paper/85 text-sm leading-relaxed">{office.address}</p>
+          </div>
+        </BorderGlow>
       ))}
     </div>
   </div>

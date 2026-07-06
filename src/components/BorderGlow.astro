@@ -1,0 +1,264 @@
+---
+// BorderGlow — cursor-reactive edge glow ported from React Bits
+// (https://reactbits.dev) to a vanilla Astro component (no React). As the
+// pointer nears a card edge, a directional glow + a subtle gradient border
+// light up toward the cursor. Brand-tuned: saffron glow + a warm amber mesh
+// (NOT the original purple/pink/blue), on the ink card, modest rounding.
+//
+// The effect is entirely CSS custom properties driven by two values the script
+// sets on pointermove (--edge-proximity, --cursor-angle). Reduced-motion users
+// get a plain static card (the listener is never attached).
+
+interface Props {
+  href?: string;
+  class?: string;
+  edgeSensitivity?: number;
+  /** "H S L" for the glow, defaults to NSQD saffron. */
+  glowColor?: string;
+  backgroundColor?: string;
+  borderRadius?: number;
+  glowRadius?: number;
+  glowIntensity?: number;
+  coneSpread?: number;
+  fillOpacity?: number;
+  /** 3 hex colors for the gradient border mesh (warm amber family). */
+  colors?: [string, string, string];
+}
+
+const {
+  href,
+  class: className = "",
+  edgeSensitivity = 35,
+  glowColor = "43 100 55",
+  backgroundColor = "#0a0a0a",
+  borderRadius = 12,
+  glowRadius = 36,
+  glowIntensity = 0.85,
+  coneSpread = 26,
+  fillOpacity = 0.4,
+  colors = ["#ffb600", "#ffd36b", "#ff7a1a"],
+} = Astro.props;
+
+const parseHSL = (s: string) => {
+  const m = s.match(/([\d.]+)\s*([\d.]+)%?\s*([\d.]+)%?/);
+  return m ? { h: +m[1], s: +m[2], l: +m[3] } : { h: 43, s: 100, l: 55 };
+};
+
+const { h, s, l } = parseHSL(glowColor);
+const base = `${h}deg ${s}% ${l}%`;
+const glowOpac = [100, 60, 50, 40, 30, 20, 10];
+const glowKeys = ["", "-60", "-50", "-40", "-30", "-20", "-10"];
+
+const POS = ["80% 55%", "69% 34%", "8% 6%", "41% 38%", "86% 85%", "82% 18%", "51% 4%"];
+const GKEYS = ["one", "two", "three", "four", "five", "six", "seven"];
+const CMAP = [0, 1, 2, 0, 1, 2, 1];
+
+const vars: Record<string, string> = {
+  "--card-bg": backgroundColor,
+  "--edge-sensitivity": String(edgeSensitivity),
+  "--border-radius": `${borderRadius}px`,
+  "--glow-padding": `${glowRadius}px`,
+  "--cone-spread": String(coneSpread),
+  "--fill-opacity": String(fillOpacity),
+  "--gradient-base": `linear-gradient(${colors[0]} 0 100%)`,
+};
+glowOpac.forEach((o, i) => {
+  vars[`--glow-color${glowKeys[i]}`] = `hsl(${base} / ${Math.min(o * glowIntensity, 100)}%)`;
+});
+GKEYS.forEach((k, i) => {
+  vars[`--gradient-${k}`] = `radial-gradient(at ${POS[i]}, ${colors[Math.min(CMAP[i], colors.length - 1)]} 0px, transparent 50%)`;
+});
+
+const styleStr = Object.entries(vars)
+  .map(([k, v]) => `${k}:${v}`)
+  .join(";");
+
+const Tag = href ? "a" : "div";
+---
+
+<Tag
+  href={href}
+  class:list={["border-glow-card", className]}
+  data-border-glow
+  style={styleStr}
+>
+  <span class="edge-light"></span>
+  <div class="border-glow-inner"><slot /></div>
+</Tag>
+
+<style>
+  .border-glow-card {
+    --edge-proximity: 0;
+    --cursor-angle: 45deg;
+    --edge-sensitivity: 35;
+    --color-sensitivity: calc(var(--edge-sensitivity) + 20);
+    --border-radius: 12px;
+    --glow-padding: 36px;
+    --cone-spread: 26;
+
+    position: relative;
+    display: grid;
+    border-radius: var(--border-radius);
+    isolation: isolate;
+    transform: translate3d(0, 0, 0.01px);
+    border: 1px solid rgb(255 255 255 / 10%);
+    background: var(--card-bg, #0a0a0a);
+    overflow: visible;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .border-glow-card::before,
+  .border-glow-card::after,
+  .border-glow-card > .edge-light {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    transition: opacity 0.25s ease-out;
+    z-index: -1;
+  }
+
+  .border-glow-card:not(:hover)::before,
+  .border-glow-card:not(:hover)::after,
+  .border-glow-card:not(:hover) > .edge-light {
+    opacity: 0;
+    transition: opacity 0.7s ease-in-out;
+  }
+
+  /* Gradient-border light, masked to a cone toward the cursor */
+  .border-glow-card::before {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--card-bg, #0a0a0a) 0 100%) padding-box,
+      linear-gradient(rgb(255 255 255 / 0%) 0% 100%) border-box,
+      var(--gradient-one) border-box,
+      var(--gradient-two) border-box,
+      var(--gradient-three) border-box,
+      var(--gradient-four) border-box,
+      var(--gradient-five) border-box,
+      var(--gradient-six) border-box,
+      var(--gradient-seven) border-box,
+      var(--gradient-base) border-box;
+    opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+    mask-image: conic-gradient(
+      from var(--cursor-angle) at center,
+      black calc(var(--cone-spread) * 1%),
+      transparent calc((var(--cone-spread) + 15) * 1%),
+      transparent calc((100 - var(--cone-spread) - 15) * 1%),
+      black calc((100 - var(--cone-spread)) * 1%)
+    );
+  }
+
+  /* Faint interior fill near the lit edge */
+  .border-glow-card::after {
+    border: 1px solid transparent;
+    background:
+      var(--gradient-one) padding-box,
+      var(--gradient-two) padding-box,
+      var(--gradient-three) padding-box,
+      var(--gradient-four) padding-box,
+      var(--gradient-five) padding-box,
+      var(--gradient-six) padding-box,
+      var(--gradient-seven) padding-box,
+      var(--gradient-base) padding-box;
+    mask-image:
+      linear-gradient(to bottom, black, black),
+      radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+      conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+    mask-composite: subtract, add;
+    opacity: calc(var(--fill-opacity, 0.4) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+    mix-blend-mode: soft-light;
+  }
+
+  /* Outer glow ring */
+  .border-glow-card > .edge-light {
+    inset: calc(var(--glow-padding) * -1);
+    pointer-events: none;
+    z-index: 1;
+    mask-image: conic-gradient(
+      from var(--cursor-angle) at center,
+      black 2.5%,
+      transparent 10%,
+      transparent 90%,
+      black 97.5%
+    );
+    opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+    mix-blend-mode: plus-lighter;
+  }
+
+  .border-glow-card > .edge-light::before {
+    content: "";
+    position: absolute;
+    inset: var(--glow-padding);
+    border-radius: inherit;
+    box-shadow:
+      inset 0 0 0 1px var(--glow-color),
+      inset 0 0 3px 0 var(--glow-color-50),
+      inset 0 0 6px 0 var(--glow-color-40),
+      inset 0 0 15px 0 var(--glow-color-30),
+      inset 0 0 25px 2px var(--glow-color-20),
+      0 0 3px 0 var(--glow-color-50),
+      0 0 6px 0 var(--glow-color-40),
+      0 0 15px 0 var(--glow-color-30),
+      0 0 25px 2px var(--glow-color-20),
+      0 0 50px 2px var(--glow-color-10);
+  }
+
+  .border-glow-inner {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .border-glow-card::before,
+    .border-glow-card::after,
+    .border-glow-card > .edge-light {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function initBorderGlow(card: HTMLElement) {
+    if (card.dataset.bgInit) return;
+    card.dataset.bgInit = "1";
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const center = () => {
+      const { width, height } = card.getBoundingClientRect();
+      return [width / 2, height / 2];
+    };
+
+    card.addEventListener("pointermove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const [cx, cy] = center();
+      const dx = x - cx;
+      const dy = y - cy;
+
+      const kx = dx !== 0 ? cx / Math.abs(dx) : Infinity;
+      const ky = dy !== 0 ? cy / Math.abs(dy) : Infinity;
+      const edge = Math.min(Math.max(1 / Math.min(kx, ky), 0), 1);
+
+      let deg = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+      if (deg < 0) deg += 360;
+
+      card.style.setProperty("--edge-proximity", (edge * 100).toFixed(2));
+      card.style.setProperty("--cursor-angle", `${deg.toFixed(2)}deg`);
+    });
+  }
+
+  function initAll() {
+    document
+      .querySelectorAll<HTMLElement>("[data-border-glow]")
+      .forEach(initBorderGlow);
+  }
+
+  document.addEventListener("astro:page-load", initAll);
+</script>

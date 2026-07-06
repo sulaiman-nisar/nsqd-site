@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import { resolveImage } from "~/lib/images";
+import BorderGlow from "~/components/BorderGlow.astro";
 
 const entries = await getCollection("work", ({ data }) => !data.draft);
 const work = entries
@@ -36,12 +37,9 @@ const sizesFor = (i: number) =>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
       {work.map((w, i) => (
-        <a
+        <BorderGlow
           href={`/work/${w.slug}/`}
-          class:list={[
-            "group relative block border border-edge bg-ink/40 overflow-hidden transition-all duration-300 ease-punch hover:border-paper",
-            i === 0 ? "sm:col-span-2 lg:col-span-2 lg:row-span-2" : "",
-          ]}
+          class={`group h-full transition-transform duration-300 ease-punch hover:-translate-y-0.5 ${i === 0 ? "sm:col-span-2 lg:col-span-2 lg:row-span-2" : ""}`}
         >
           <div class:list={[
             "relative w-full overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.05),transparent_60%)]",
@@ -74,7 +72,7 @@ const sizesFor = (i: number) =>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="transition-transform duration-200 group-hover:translate-x-1"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </div>
           </div>
-        </a>
+        </BorderGlow>
       ))}
     </div>
   </div>

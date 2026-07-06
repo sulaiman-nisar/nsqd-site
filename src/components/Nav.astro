@@ -25,13 +25,14 @@ const navItems = [
       <span class="hidden sm:inline text-eyebrow font-spec uppercase text-sun pl-3 border-l border-edge">Necessity Squared</span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-7 font-spec text-sm">
+    <nav class="hidden md:flex items-center gap-1 font-spec text-sm" aria-label="Primary">
       {navItems.map((item) => (
-        <a
-          href={item.href}
-          class="text-paper/85 hover:text-paper transition-colors duration-150"
-        >
-          {item.label}
+        <a href={item.href} class="pill">
+          <span class="pill-fill" aria-hidden="true"></span>
+          <span class="pill-labels">
+            <span class="pill-label">{item.label}</span>
+            <span class="pill-label pill-label--hover" aria-hidden="true">{item.label}</span>
+          </span>
         </a>
       ))}
     </nav>
@@ -102,6 +103,74 @@ const navItems = [
 </div>
 
 <style>
+  /* Desktop pill nav — saffron circle rises to fill on hover, label swaps
+     white -> ink. Pure CSS (no GSAP). Ported/retuned from React Bits PillNav. */
+  .pill {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 12px;
+    padding: 0.5rem 0.95rem;
+    line-height: 1;
+    color: var(--paper);
+    isolation: isolate;
+  }
+  .pill-fill {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 165%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--sun);
+    transform: translate(-50%, 28%) scale(0);
+    transform-origin: 50% 100%;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .pill:hover .pill-fill,
+  .pill:focus-visible .pill-fill {
+    transform: translate(-50%, 28%) scale(1);
+  }
+  .pill-labels {
+    position: relative;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+  }
+  .pill-label {
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .pill-label--hover {
+    position: absolute;
+    inset: 0;
+    color: var(--ink);
+    transform: translateY(110%);
+  }
+  .pill:hover .pill-label:not(.pill-label--hover),
+  .pill:focus-visible .pill-label:not(.pill-label--hover) {
+    transform: translateY(-110%);
+  }
+  .pill:hover .pill-label--hover,
+  .pill:focus-visible .pill-label--hover {
+    transform: translateY(0);
+  }
+  /* Reduced motion: no fill/slide — a simple saffron underline on hover. */
+  @media (prefers-reduced-motion: reduce) {
+    .pill-fill,
+    .pill-label--hover {
+      display: none;
+    }
+    .pill:hover {
+      text-decoration: underline;
+      text-decoration-color: var(--sun);
+      text-underline-offset: 4px;
+    }
+  }
+
   /* Open state: overlay becomes a flex column; links stagger up. */
   #nav-menu-overlay.is-open {
     display: flex;

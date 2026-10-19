@@ -1,12 +1,14 @@
 ---
 import ContactForm from "~/components/ContactForm.astro";
 import WhatsAppButton from "~/components/WhatsAppButton.astro";
+import DotGrid from "~/components/DotGrid.astro";
 import { prefills } from "~/lib/whatsapp";
 import { site } from "~/lib/site";
 ---
 
-<section id="contact" class="section bg-ink" aria-labelledby="contact-heading">
-  <div class="wrap">
+<section id="contact" class="section bg-ink relative overflow-hidden" aria-labelledby="contact-heading">
+  <DotGrid />
+  <div class="wrap relative z-10">
     <p class="eyebrow">Start something</p>
     <h2 id="contact-heading" class="mt-3 text-h1 font-extrabold tracking-tightest max-w-3xl">
       Fastest way in: <span class="hl">WhatsApp.</span>

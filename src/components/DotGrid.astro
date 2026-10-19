@@ -1,0 +1,113 @@
+---
+// DotGrid: a static fabrication-grid texture (like a CNC bed / perforated
+// sheet) with a cheap saffron cursor-spotlight that lights up the dots near
+// the pointer. Pure CSS: a faint dot pattern + a second saffron dot layer
+// masked to a radius that follows the cursor via two CSS vars. No canvas, no
+// per-frame redraw: a handful of dots' worth of cost, not thousands.
+// Drop inside a `position: relative; overflow: hidden` container.
+interface Props {
+  /** Dot spacing in px. */
+  gap?: number;
+  /** Radius (px) of the cursor spotlight. */
+  spotlight?: number;
+  class?: string;
+}
+const { gap = 22, spotlight = 190, class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={["dotgrid", className]}
+  data-dotgrid
+  aria-hidden="true"
+  style={`--gap:${gap}px; --spot:${spotlight}px`}
+>
+</div>
+
+<style>
+  .dotgrid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    --mx: 50%;
+    --my: -300px;
+    --dot: rgba(255, 255, 255, 0.55);
+    --size: 1.4px;
+  }
+  .dotgrid::before,
+  .dotgrid::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-position: center;
+    background-size: var(--gap) var(--gap);
+  }
+  /* Faint base grid: graph-paper texture, always on. */
+  .dotgrid::before {
+    background-image: radial-gradient(
+      var(--dot) var(--size),
+      transparent calc(var(--size) + 0.7px)
+    );
+    opacity: 0.09;
+  }
+  /* Saffron dots, revealed only within the cursor spotlight. */
+  .dotgrid::after {
+    background-image: radial-gradient(
+      var(--nsqd-sun, #ffb600) var(--size),
+      transparent calc(var(--size) + 0.7px)
+    );
+    -webkit-mask-image: radial-gradient(
+      var(--spot) circle at var(--mx) var(--my),
+      #000 0%,
+      transparent 68%
+    );
+    mask-image: radial-gradient(
+      var(--spot) circle at var(--mx) var(--my),
+      #000 0%,
+      transparent 68%
+    );
+  }
+  /* Reduced motion: keep the static grid, drop the cursor spotlight. */
+  @media (prefers-reduced-motion: reduce) {
+    .dotgrid::after {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function initDotGrids() {
+    document.querySelectorAll<HTMLElement>("[data-dotgrid]").forEach((grid) => {
+      if (grid.dataset.dgInit) return;
+      grid.dataset.dgInit = "1";
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const host = grid.parentElement || grid;
+      let raf = 0;
+      let x = 0;
+      let y = 0;
+
+      host.addEventListener(
+        "pointermove",
+        (e) => {
+          const r = grid.getBoundingClientRect();
+          x = (e as PointerEvent).clientX - r.left;
+          y = (e as PointerEvent).clientY - r.top;
+          if (!raf) {
+            raf = requestAnimationFrame(() => {
+              grid.style.setProperty("--mx", `${x}px`);
+              grid.style.setProperty("--my", `${y}px`);
+              raf = 0;
+            });
+          }
+        },
+        { passive: true },
+      );
+      // Park the spotlight off-canvas when the pointer leaves.
+      host.addEventListener("pointerleave", () => {
+        grid.style.setProperty("--my", "-300px");
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initDotGrids);
+</script>

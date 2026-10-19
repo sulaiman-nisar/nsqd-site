@@ -44,11 +44,12 @@ Website: [nsqd.co](https://nsqd.co)
 
 ## 4. Selected work — anchor projects (publishable)
 
-These are the five live case studies on the site. Each has an associated visual library (workshop shots, install shots, detail close-ups) in `/public/images/work/`.
+These are the six live case studies on the site. Each has an associated visual library (workshop shots, install shots, detail close-ups) in `src/assets/work/` (referenced in copy as `/images/work/`).
 
 | Client | Project | What we did | Year |
 |---|---|---|---|
 | **1Rebel** | Spin-and-win wheel | Interactive prize wheel for a fitness pop-up. CO2 laser body + UV flatbed branding. 14 days brief to opening. | 2025 |
+| **GDT Group of Companies** (WD-40's Middle East agent) | WD-40 Atlas rocket | 2.5 m SM-65 Atlas replica for Big 5 Global 2026 (DWTC, 25 to 28 Nov). WD-40 was formulated in 1953 to protect the Atlas, so the rocket is the origin story. Fully FDM 3D-printed in-house on the Bambu Lab P1S farm, filled, sanded, 2K automotive paint, hidden steel frame, 700 × 700 mm printed plinth with the "WHY 40?" story. Removable mid section drops it to 2 m for venue height rules. 2 weeks go-ahead to install, 15 min on site. Installed at GDT's Dubai office 19 Oct 2026 ahead of the show. | 2026 |
 | **IDEX Display** | APC scale model | Hard-surface scale model for institutional defence display. Large-format SLA 3D-print + hand-finishing. 6 weeks. | 2025 |
 | **People & Co** | Selected work — Union Day, Eid Al Etihad, NHM | Three-year production partnership. Union Day diorama boxes (2023), Eid Al Etihad palm fronds at venue scale (2024), Natural History Museum ember props for live broadcast (2026). Zero prop failures across all three. | 2023–2026 |
 | **NYU Abu Dhabi** | Basketball trophy | Institutional sporting award. SLA print + hand-finishing + plaque engraving. Year-on-year reorder. | 2024 |
@@ -338,7 +339,7 @@ If a post wants to send people somewhere specific:
 |---|---|
 | Home (general "go look") | https://nsqd.co |
 | Selected work / case studies | https://nsqd.co/#work |
-| Specific case study | https://nsqd.co/work/[slug] (slugs: 1rebel-spin-wheel, apc-scale-model, graff, nyu-trophy, people-and-co-union-day) |
+| Specific case study | https://nsqd.co/work/[slug] (slugs: 1rebel-spin-wheel, wd40-atlas-rocket, apc-scale-model, people-and-co-union-day, nyu-trophy, graff) |
 | The Floor (pipeline) | https://nsqd.co/#floor |
 | Capabilities (make-a-part) | https://nsqd.co/#capabilities |
 | Contact form | https://nsqd.co/#contact |

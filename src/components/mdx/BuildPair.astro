@@ -8,12 +8,25 @@ interface Props {
   leftAlt?: string;
   rightAlt?: string;
   caption?: string;
+  aspect?: "16/9" | "4/3" | "3/2" | "1/1" | "4/5" | "3/4" | "2/3" | "9/16";
 }
 
-const { leftSrc, rightSrc, leftAlt = "", rightAlt = "", caption } = Astro.props;
+const { leftSrc, rightSrc, leftAlt = "", rightAlt = "", caption, aspect = "4/3" } = Astro.props;
 const left = resolveImage(leftSrc);
 const right = resolveImage(rightSrc);
 const anyExists = left || right;
+
+// Same aspect map as BuildShot, so tall builds can sit side by side uncropped.
+const aspectClass = {
+  "16/9": "aspect-[16/9]",
+  "4/3": "aspect-[4/3]",
+  "3/2": "aspect-[3/2]",
+  "1/1": "aspect-square",
+  "4/5": "aspect-[4/5]",
+  "3/4": "aspect-[3/4]",
+  "2/3": "aspect-[2/3]",
+  "9/16": "aspect-[9/16]",
+}[aspect];
 
 // Each half of the pair: ~406px on desktop (half of the 832px case column).
 const SIZES = "(min-width: 1024px) 406px, (min-width: 640px) 50vw, 100vw";
@@ -23,7 +36,7 @@ const SIZES = "(min-width: 1024px) 406px, (min-width: 640px) 50vw, 100vw";
   <figure class="my-10">
     <div class="grid sm:grid-cols-2 gap-4 md:gap-5">
       {left && (
-        <div class="relative aspect-[4/3] border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]">
+        <div class:list={["relative border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]", aspectClass]}>
           <Image
             src={left}
             alt={leftAlt}
@@ -38,7 +51,7 @@ const SIZES = "(min-width: 1024px) 406px, (min-width: 640px) 50vw, 100vw";
         </div>
       )}
       {right && (
-        <div class="relative aspect-[4/3] border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]">
+        <div class:list={["relative border border-edge overflow-hidden bg-[radial-gradient(circle_at_35%_35%,rgba(255,255,255,0.04),transparent_60%)]", aspectClass]}>
           <Image
             src={right}
             alt={rightAlt}

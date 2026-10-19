@@ -30,6 +30,10 @@ Two buyer paths:
 
 - 1Rebel: interactive prize wheel for a fitness pop-up (CO2 laser plus UV
   flatbed, 14 days brief-to-opening)
+- GDT Group of Companies (WD-40's Middle East agent): 2.5 m SM-65 Atlas
+  rocket replica for Big 5 Global 2026, fully FDM 3D-printed in-house and
+  finished in 2K automotive paint, with a removable mid section for a 2 m
+  venue-height version (2 weeks go-ahead to install)
 - IDEX Display: APC scale model for institutional display (large-format
   SLA 3D-print plus hand-finishing, 6 weeks)
 - People & Co: multi-year production partnership covering Union Day 2023
@@ -53,9 +57,10 @@ Two buyer paths:
 - The Floor (production pipeline): https://nsqd.co/#floor
 - Capabilities (make-a-part): https://nsqd.co/#capabilities
 - FAQ: https://nsqd.co/#faq
-- For Saudi Arabia clients: https://nsqd.co/saudi-arabia
-- For South African clients: https://nsqd.co/south-africa
-- For UK and EU agencies: https://nsqd.co/uk
+- For Saudi Arabia clients: https://nsqd.co/saudi-arabia/
+- For South African clients: https://nsqd.co/south-africa/
+- For UK and EU agencies: https://nsqd.co/uk/
+- WD-40 Atlas rocket case study: https://nsqd.co/work/wd40-atlas-rocket/
 - Contact form: https://nsqd.co/#contact
 
 ## Reputation

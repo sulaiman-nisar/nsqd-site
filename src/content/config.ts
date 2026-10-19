@@ -8,6 +8,9 @@ const work = defineCollection({
     type: z.string(),
     year: z.number().optional(),
     outcome: z.string(),
+    // Optional meta description override. The default is built from
+    // outcome + type, which can run past Bing's 160-char cap.
+    description: z.string().optional(),
     hero: z.string(),
     // Optional grid-tile image for when the hero's framing doesn't suit the
     // 4:3 tile (e.g. a wide hero for a tall subject). Falls back to hero.

@@ -1,0 +1,11 @@
+# Cloudflare Workers Static Assets redirects.
+# Old-site URLs that Google still crawls (GSC "Not found (404)", first seen
+# 2026-05-26). 301 them to their nearest home on the new site so the index
+# drops them cleanly instead of re-crawling a 404.
+
+/homepage          /          301
+/homepage/         /          301
+/about             /#studio   301
+/about/            /#studio   301
+/privacy-policy    /          301
+/privacy-policy/   /          301

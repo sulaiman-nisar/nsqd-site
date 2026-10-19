@@ -9,6 +9,9 @@ const work = defineCollection({
     year: z.number().optional(),
     outcome: z.string(),
     hero: z.string(),
+    // Optional grid-tile image for when the hero's framing doesn't suit the
+    // 4:3 tile (e.g. a wide hero for a tall subject). Falls back to hero.
+    tile: z.string().optional(),
     gallery: z.array(z.string()).optional(),
     sectors: z.array(z.string()).default([]),
     capabilities: z.array(z.string()).default([]),

@@ -13,7 +13,7 @@ const work = entries
     title: e.data.title,
     type: e.data.type,
     outcome: e.data.outcome,
-    image: resolveImage(e.data.hero),
+    image: resolveImage(e.data.tile ?? e.data.hero),
   }));
 
 // Heading count written out so it reads as copy, not a counter.
